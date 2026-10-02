@@ -54,7 +54,7 @@ def select(urls, cfg, previous=()):
     for prefix in cfg["categories"]:
         kept = [u for u in previous if prefix in u and u in alive]
         new = sorted((u for u in urls if prefix in u and u not in set(kept)), key=key)
-        chosen.extend((kept + new)[:PER_CATEGORY_CAP])
+        chosen.extend((kept + new)[: cfg.get("per_category_cap", PER_CATEGORY_CAP)])
     seen, out = set(), []
     for u in chosen:
         if u not in seen:
