@@ -5,17 +5,27 @@
 <title>Førpris – er tilbuddet ægte?</title>
 <meta name="description" content="Førpris viser på danske webshops, om førprisen holder: var varen virkelig dyrere i de 30 dage før tilbuddet?">
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="icon.png">
 </head>
 <body><main>
-<header class="top"><span class="dot"></span><a class="brand" href="./">Førpris <small>af Plumtab</small></a></header>
+<header class="top"><img src="icon.png" alt=""><a class="brand" href="./">FØRPRIS<small>et værktøj fra Plumtab</small></a></header>
 
 <h1>Er tilbuddet ægte?</h1>
 <p class="lead">Førpris viser direkte på webshoppens produktside, om førprisen holder, og hvad varen har kostet de seneste uger.</p>
 
-<div class="cards">
-  <div class="card"><span class="pill warn">Tvivlsom førpris</span><br>Butikken skriver “før 7.999 kr.”, men vi har set varen til 4.888 kr. i de 30 dage før tilbuddet.</div>
-  <div class="card"><span class="pill ok">Førprisen holder</span><br>Varen kostede faktisk førprisen i hele perioden op til tilbuddet.</div>
-  <div class="card"><span class="pill muted">Billigere andetsteds</span><br>Samme vare (samme stregkode) er billigere hos en anden butik lige nu.</div>
+<div class="receipts">
+  <div class="receipt bad"><div class="t"><b>✕</b>Vi har set den billigere</div>
+    <div class="r"><span>Butikkens førpris</span><span>7.999</span></div>
+    <div class="r"><span>Pris nu</span><span>4.888</span></div>
+    <div class="r"><span>Laveste pris 30 dage før</span><span>4.888</span></div></div>
+  <div class="receipt good"><div class="t"><b>✓</b>Førprisen stemmer</div>
+    <div class="r"><span>Butikkens førpris</span><span>9.499</span></div>
+    <div class="r"><span>Pris nu</span><span>7.499</span></div>
+    <div class="r"><span>Laveste pris 30 dage før</span><span>9.499</span></div></div>
+  <div class="receipt"><div class="t"><b>↑</b>12% over laveste pris</div>
+    <div class="r"><span>Pris nu</span><span>2.799</span></div>
+    <div class="r"><span>Laveste pris set</span><span>2.499</span></div>
+    <div class="r"><span>Billigere hos Bilka</span><span>2.599</span></div></div>
 </div>
 
 <h2>Reglen</h2>
@@ -23,10 +33,11 @@
 
 <h2>Sådan virker det</h2>
 <p>Vi registrerer hver dag priserne på titusindvis af varer hos Power, Elgiganten, Bilka, Imerco og Magasin. Når du åbner en vare, sammenligner Førpris butikkens førpris med de priser, vi selv har registreret. Vi udtaler os kun om det, vores egne data viser.</p>
-<p class="note">Førpris er gratis. Ingen login, ingen sporing: udvidelsen henter kun offentlige prisfiler og sender intet om dig nogen steder hen.</p>
+<p class="note">Førpris er gratis. Ingen login, ingen sporing og ingen kunstig intelligens: kun priser, datoer og en regel. Udvidelsen henter offentlige prisfiler og sender intet om dig nogen steder hen.</p>
+<p>Alle vores data er offentlige, så alle kan efterprøve dem: <a href="https://github.com/plumtab/price-data">github.com/plumtab/price-data</a>.</p>
 
 <h2>Status</h2>
-<p>Vi har indsamlet priser siden 2. oktober 2026. Udvidelsen til Chrome og Edge er på vej.</p>
+<p>Vi har registreret priser hver dag siden 2. oktober 2026 og følger nu omkring 95.000 varer. Udvidelsen til Chrome og Edge er på vej.</p>
 
 <footer>
   Førpris er lavet af Plumtab · <a href="privacy.html">Privatliv</a> · <a href="bot.html">Om vores prisrobot</a> · <a href="https://github.com/plumtab/price-data">Data på GitHub</a> · plumtab.studio@gmail.com
