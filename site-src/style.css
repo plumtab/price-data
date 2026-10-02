@@ -1,0 +1,24 @@
+:root { --plum: #5b2d8e; --plum-2: #9b6fd0; --ink: #1f1a24; --muted: #6d6378; --bg: #ffffff; --soft: #faf7fd; --line: #ece4f5;
+  --warn: #b5440b; --warn-bg: #fff1e6; --ok: #23753a; --ok-bg: #ebf7ee; }
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #ece7f2; --muted: #a49bb0; --bg: #16131a; --soft: #1f1a24; --line: #33293d; --plum: #cdb3f0; --warn-bg: #3a2416; --ok-bg: #18301f; --warn: #ffb48a; --ok: #8fd6a3; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+header.top { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; }
+.dot { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, var(--plum-2), #5b2d8e); }
+.brand { font-weight: 800; letter-spacing: .2px; color: var(--plum); text-decoration: none; }
+.brand small { font-weight: 500; color: var(--muted); }
+h1 { font-size: clamp(30px, 6vw, 44px); line-height: 1.12; margin: 0 0 16px; letter-spacing: -.5px; }
+h2 { font-size: 22px; margin: 40px 0 8px; }
+p.lead { font-size: 20px; color: var(--muted); margin: 0 0 28px; }
+a { color: var(--plum); }
+.cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 24px 0; }
+.card { border: 1px solid var(--line); background: var(--soft); border-radius: 14px; padding: 16px; }
+.pill { display: inline-block; font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; margin-bottom: 8px; }
+.pill.warn { color: var(--warn); background: var(--warn-bg); } .pill.ok { color: var(--ok); background: var(--ok-bg); }
+.pill.muted { color: var(--muted); background: var(--bg); border: 1px solid var(--line); }
+.note { border-left: 4px solid var(--plum-2); padding: 4px 0 4px 14px; color: var(--muted); }
+footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+code { background: var(--soft); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: .9em; }

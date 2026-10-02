@@ -1,0 +1,85 @@
+name: daily
+
+on:
+  schedule:
+    - cron: "17 4 * * *"   # ~06:17 Danish time
+  push:
+    branches: [main]
+    paths: ["data/**", "site-src/**", "collector/build_site.py"]
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Only fetch the first N targets per shop (testing)"
+        required: false
+        default: ""
+      skip_collect:
+        description: "Only rebuild and deploy the site"
+        type: boolean
+        default: false
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.skip_collect)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh targets (Mondays, or if missing)
+        run: |
+          if [ "$(date -u +%u)" = "1" ] || [ ! -s collector/targets/power.txt ]; then
+            python collector/targets.py power bilka imerco magasin
+          fi
+      - name: Collect prices
+        run: |
+          if [ -n "${{ inputs.limit }}" ]; then
+            python collector/collect.py --limit "${{ inputs.limit }}"
+          else
+            python collector/collect.py
+          fi
+      - name: Commit data
+        run: |
+          git config user.name "plumtab-bot"
+          git config user.email "plumtab.studio@gmail.com"
+          git add data collector/targets
+          git commit -q -m "data: prices $(date -u +%F)" || { echo "nothing to commit"; exit 0; }
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 10; done
+          exit 1
+
+  deploy:
+    needs: collect
+    if: always() && needs.collect.result != 'failure' && needs.collect.result != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build static site
+        run: |
+          python collector/build_site.py --out _site
+          cp -r site-src/. _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
