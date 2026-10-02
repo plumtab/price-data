@@ -7,6 +7,8 @@ Output: <out>/v1/<shop>/<shard>.json   shard = first 2 hex chars of sha1(sku)
         <out>/v1/ean/<shard>.json        shard = first 2 hex chars of sha1(ean)
         { "<ean>": [[shop, sku, latest_price, date, avail_code, url], ...] }   (only EANs at 2+ shops)
         <out>/v1/meta.json               { "built": iso, "first_day": ..., "last_day": ..., "shops": {...} }
+        <out>/v1/index.json              Førpris index (descriptive): per shop per day, how many tracked products
+                                         had a price and how many showed a before-price (list price above price).
 
 One observation per product per day: the lowest price seen that day (a conservative choice:
 it can only make a shop's before-price look *more* justified, never less).
@@ -22,6 +24,9 @@ import gzip
 import hashlib
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IN_STOCK = {"InStock", "LimitedAvailability", "OnlineOnly", "InStoreOnly", "PreOrder", "BackOrder"}
@@ -38,6 +43,8 @@ def main():
 
     # (shop, sku) -> {"n","e", days: {day: [price, lp, avail]}}
     products = {}
+    # (shop, day) -> [priced, with_before_price]
+    daily = collections.defaultdict(lambda: [0, set()])  # [unused, {(sku, has_before_price)}]
     days_seen = set()
     for path in sorted(glob.glob(os.path.join(ROOT, "data", "prices", "*", "*", "*", "*.jsonl.gz"))):
         parts = path.split(os.sep)
@@ -54,6 +61,7 @@ def main():
                 prod["n"], prod["e"], prod["u"] = r.get("n") or prod["n"], r.get("e") or prod["e"], r.get("u") or prod["u"]
                 avail = 1 if r.get("a") in IN_STOCK else 0
                 obs = [r["p"], r.get("lp"), avail]
+                daily[(shop, day)][1].add((r["s"], bool(r.get("lp") and r["lp"] > r["p"] + 0.5)))
                 cur = prod["days"].get(day)
                 if cur is None or obs[0] < cur[0]:
                     prod["days"][day] = obs
@@ -84,6 +92,18 @@ def main():
     for sh, data in ean_shards.items():
         with open(os.path.join(out, "ean", f"{sh}.json"), "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+
+    # Index: count unique products per shop/day; a product counts as "with before-price" if any observation that day had one.
+    index = collections.defaultdict(dict)
+    for (shop, day), cell in sorted(daily.items()):
+        seen = {}
+        for sku, has_lp in cell[1]:
+            seen[sku] = seen.get(sku, False) or has_lp
+        index[shop][day] = [len(seen), sum(seen.values())]
+    from shops import SHOPS
+    not_measured = sorted(n for n, c in SHOPS.items() if c.get("measures_before_price") is False)
+    with open(os.path.join(out, "index.json"), "w") as f:
+        json.dump({"days": sorted(days_seen), "shops": index, "before_price_not_measured": not_measured}, f, separators=(",", ":"))
 
     meta = {"built": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "first_day": min(days_seen) if days_seen else None, "last_day": max(days_seen) if days_seen else None,

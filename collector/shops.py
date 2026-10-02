@@ -52,6 +52,8 @@ SHOPS = {
     },
     # The shops below have no category in their URLs, so "categories" are keywords in the URL slug.
     "bilka": {
+        # Bilka shows no before-prices in its HTML/JSON-LD: excluded from before-price statistics.
+        "measures_before_price": False,
         "base": "https://www.bilka.dk",
         "sitemap_index": "https://bilka.dk/sitemap/sitemap-index.xml",
         "product_sitemap_hint": "sitemap",

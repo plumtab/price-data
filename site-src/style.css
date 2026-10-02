@@ -22,3 +22,10 @@ a { color: var(--ink); text-underline-offset: 3px; }
 .note { border-left: 4px solid var(--ink); padding: 4px 0 4px 14px; color: var(--muted); }
 footer { margin-top: 56px; padding-top: 16px; border-top: 1px dashed var(--dash); font-size: 14px; color: var(--muted); }
 code { font-family: var(--mono); background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 1px 6px; font-size: .88em; }
+
+.index table { width: 100%; border-collapse: collapse; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; font-size: 16px; }
+.index th, .index td { padding: 9px 12px; border-top: 1px dashed var(--dash); text-align: left; }
+.index thead th { border-top: 0; font: 700 12px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.index .n { text-align: right; font-family: var(--mono); } .index .strong { font-weight: 700; }
+.index .spark { width: 90px; height: 20px; } .index .spark polyline { fill: none; stroke: var(--ink); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+.small { font-size: 14px; color: var(--muted); } .muted { color: var(--muted); }

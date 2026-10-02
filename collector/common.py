@@ -54,6 +54,22 @@ def _num(x):
         return None
 
 
+_STRIKE_RE = re.compile(r'class="strike-through list[^"]*".{0,400}?content="([\d.]+)"', re.S)
+_SALEDATE_RE = re.compile(r'(?:saledateinfo">\s*Gælder|Tilbud(?:det)? gælder fra(?: d\.)?)\s*(\d{1,2})/(\d{1,2})')
+
+
+def parse_html_extras(html):
+    """Shop-rendered details not in JSON-LD: a strikethrough list price (Magasin) and a printed offer start ("dd/mm")."""
+    out = {}
+    m = _STRIKE_RE.search(html)
+    if m:
+        out["list_price"] = _num(m.group(1))
+    m = _SALEDATE_RE.search(html)
+    if m:
+        out["sale_from"] = f"{int(m.group(1)):02d}/{int(m.group(2)):02d}"
+    return out
+
+
 def parse_product(html):
     """Extract the first schema.org Product with an Offer from JSON-LD.
 
@@ -87,6 +103,9 @@ def parse_product(html):
                                 list_price = _num(spec.get("price"))
                         ean = node.get("gtin13") or node.get("gtin") or node.get("gtin12") or node.get("gtin14") or node.get("ean")
                         avail = str(offer.get("availability", "")).rsplit("/", 1)[-1] or None
+                        extras = parse_html_extras(html)
+                        if list_price is None and extras.get("list_price") and extras["list_price"] > price:
+                            list_price = extras["list_price"]
                         return {
                             "name": htmllib.unescape(node.get("name") or "")[:200],
                             "price": price,
@@ -95,6 +114,7 @@ def parse_product(html):
                             "sku": str(node.get("sku")) if node.get("sku") else None,
                             "availability": avail,
                             "list_price": list_price,
+                            "sale_from": extras.get("sale_from"),
                         }
             stack.extend(v for v in node.values() if isinstance(v, (dict, list)))
     return None

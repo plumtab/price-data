@@ -36,8 +36,40 @@
 <p class="note">Førpris er gratis. Ingen login, ingen sporing og ingen kunstig intelligens: kun priser, datoer og en regel. Udvidelsen henter offentlige prisfiler og sender intet om dig nogen steder hen.</p>
 <p>Alle vores data er offentlige, så alle kan efterprøve dem: <a href="https://github.com/plumtab/price-data">github.com/plumtab/price-data</a>.</p>
 
+<h2>Førpris-indekset</h2>
+<p>Hvor stor en del af de varer, vi følger, vises i dag med en førpris, altså som “tilbud”? Opdateres hver morgen. Følg med, når Black Friday nærmer sig.</p>
+<div id="index" class="index"><p class="muted">Henter data…</p></div>
+<p class="small">Metode: andelen af de varer, vi registrerer hos butikken den pågældende dag, hvor butikken viser en overstreget førpris over den aktuelle pris. “–” betyder, at vi ikke kan aflæse førpriser hos butikken. Rådata: <a href="https://github.com/plumtab/price-data">github.com/plumtab/price-data</a>.</p>
+
 <h2>Status</h2>
 <p>Vi har registreret priser hver dag siden 2. oktober 2026 og følger nu omkring 95.000 varer. Udvidelsen til Chrome og Edge er på vej.</p>
+
+<script>
+(async () => {
+  const el = document.getElementById("index");
+  const NAMES = { power: "Power", elgiganten: "Elgiganten", bilka: "Bilka", imerco: "Imerco", magasin: "Magasin" };
+  const fmt = (n) => n.toLocaleString("da-DK");
+  try {
+    const d = await (await fetch("v1/index.json", { cache: "no-cache" })).json();
+    const last = d.days[d.days.length - 1];
+    const dato = new Date(last + "T00:00:00Z").toLocaleDateString("da-DK", { day: "numeric", month: "long", timeZone: "UTC" });
+    const rows = Object.keys(d.shops).sort().map((shop) => {
+      const series = d.days.map((day) => d.shops[shop][day]).filter(Boolean);
+      const [n, k] = d.shops[shop][last] || series[series.length - 1] || [0, 0];
+      const measured = !(d.before_price_not_measured || []).includes(shop);
+      const share = measured && n ? Math.round((k / n) * 100) + " %" : "–";
+      let spark = "";
+      if (measured && series.length > 1) {
+        const v = series.map(([a, b]) => (a ? b / a : 0)), hi = Math.max(...v, 0.01);
+        const pts = v.map((x, i) => `${(i / (v.length - 1)) * 100},${20 - (x / hi) * 18}`).join(" ");
+        spark = `<svg viewBox="0 0 100 20" preserveAspectRatio="none" class="spark"><polyline points="${pts}"/></svg>`;
+      }
+      return `<tr><td>${NAMES[shop] || shop}</td><td class="n">${fmt(n)}</td><td class="n strong">${share}</td><td>${spark}</td></tr>`;
+    }).join("");
+    el.innerHTML = `<table><thead><tr><th>Butik</th><th class="n">Varer fulgt</th><th class="n">Med førpris</th><th></th></tr></thead><tbody>${rows}</tbody></table><p class="small">Senest opdateret ${dato}.</p>`;
+  } catch (e) { el.innerHTML = '<p class="small">Kunne ikke hente indekset lige nu.</p>'; }
+})();
+</script>
 
 <footer>
   Førpris er lavet af Plumtab · <a href="privacy.html">Privatliv</a> · <a href="bot.html">Om vores prisrobot</a> · <a href="https://github.com/plumtab/price-data">Data på GitHub</a> · plumtab.studio@gmail.com

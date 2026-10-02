@@ -3,7 +3,7 @@
 
 Output: data/prices/YYYY/MM/DD/<shop>-<HHMM>.jsonl.gz
 Each line: {"t": iso_utc, "u": url, "n": name, "p": price, "lp": list_price (shop's own before-price),
-            "c": currency, "e": ean, "s": sku, "a": availability}
+            "c": currency, "e": ean, "s": sku, "a": availability, "sf": "dd/mm" offer start printed by the shop (optional)}
 A line with "err" instead of a price records a failed fetch/parse (so gaps are visible, not silent).
 
 Politeness: per-shop concurrency and delay (see shops.py), honest User-Agent with contact address.
@@ -36,7 +36,8 @@ def scrape(url, delay=0):
     if not prod:
         return {"t": now, "u": url, "err": "no-offer"}
     return {"t": now, "u": url, "n": prod["name"], "p": prod["price"], "lp": prod["list_price"],
-            "c": prod["currency"], "e": prod["ean"], "s": prod["sku"], "a": prod["availability"]}
+            "c": prod["currency"], "e": prod["ean"], "s": prod["sku"], "a": prod["availability"],
+            **({"sf": prod["sale_from"]} if prod.get("sale_from") else {})}
 
 
 def run_shop(name, limit=None, workers=None, delay=None):
