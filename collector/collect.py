@@ -39,7 +39,7 @@ def scrape(url, delay=0):
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     if status != 200:
         return {"t": now, "u": url, "err": f"http {status}"}
-    prod = parse_product(html)
+    prod = parse_product(html, url)
     if not prod:
         return {"t": now, "u": url, "err": "no-offer"}
     row = {"s": prod["sku"], "p": prod["price"], "a": 1 if prod["availability"] in IN_STOCK else 0}

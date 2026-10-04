@@ -4,8 +4,9 @@ import html as htmllib
 import json
 import re
 import time
-import urllib.request
 import urllib.error
+import urllib.parse
+import urllib.request
 
 USER_AGENT = "PlumtabPriceBot/0.1 (+https://plumtab.github.io/price-data/bot.html; plumtab.studio@gmail.com)"
 TIMEOUT = 30
@@ -70,51 +71,73 @@ def parse_html_extras(html):
     return out
 
 
-def parse_product(html):
-    """Extract the first schema.org Product with an Offer from JSON-LD.
+def _offer_nodes(node):
+    """Yield every JSON-LD node that has offers, in document order (a ProductGroup's variants included)."""
+    if isinstance(node, list):
+        for x in node:
+            yield from _offer_nodes(x)
+    elif isinstance(node, dict):
+        if node.get("offers") is not None:
+            yield node
+        for v in node.values():
+            if isinstance(v, (dict, list)):
+                yield from _offer_nodes(v)
 
-    Returns dict(name, price, currency, ean, availability, list_price) or None.
+
+def _path(u, base=None):
+    """URL path for matching a variant to the page: no query, no trailing slash, lower case."""
+    if not u:
+        return None
+    return urllib.parse.urlsplit(urllib.parse.urljoin(base or "", str(u))).path.rstrip("/").lower() or "/"
+
+
+def parse_product(html, url=None):
+    """Extract the schema.org Product with an Offer from JSON-LD.
+
+    Pages with several variants (a ProductGroup, e.g. Matas sizes) list one Product per variant. We take
+    the variant whose own URL is the page URL, else the first product in document order.
+
+    Returns dict(name, price, currency, ean, sku, availability, list_price, sale_from) or None.
     list_price is the shop's own strikethrough / "before" price when published
     (priceSpecification with priceType StrikethroughPrice/ListPrice).
     """
+    page = _path(url)
+    candidates = []
     for m in _LD_RE.finditer(html):
         try:
             data = json.loads(m.group(1).strip())
         except json.JSONDecodeError:
             continue
-        stack = [data]
-        while stack:
-            node = stack.pop()
-            if isinstance(node, list):
-                stack.extend(node)
+        for node in _offer_nodes(data):
+            offers = node["offers"]
+            offer = offers[0] if isinstance(offers, list) and offers else offers
+            if not isinstance(offer, dict):
                 continue
-            if not isinstance(node, dict):
+            price = _num(offer.get("price") or offer.get("lowPrice"))
+            if price is None:
                 continue
-            offers = node.get("offers")
-            if offers is not None:
-                offer = offers[0] if isinstance(offers, list) and offers else offers
-                if isinstance(offer, dict):
-                    price = _num(offer.get("price") or offer.get("lowPrice"))
-                    if price is not None:
-                        list_price = None
-                        specs = offer.get("priceSpecification") or []
-                        for spec in specs if isinstance(specs, list) else [specs]:
-                            if isinstance(spec, dict) and str(spec.get("priceType", "")).endswith(("StrikethroughPrice", "ListPrice")):
-                                list_price = _num(spec.get("price"))
-                        ean = node.get("gtin13") or node.get("gtin") or node.get("gtin12") or node.get("gtin14") or node.get("ean")
-                        avail = str(offer.get("availability", "")).rsplit("/", 1)[-1] or None
-                        extras = parse_html_extras(html)
-                        if list_price is None and extras.get("list_price") and extras["list_price"] > price:
-                            list_price = extras["list_price"]
-                        return {
-                            "name": htmllib.unescape(node.get("name") or "")[:200],
-                            "price": price,
-                            "currency": offer.get("priceCurrency"),
-                            "ean": str(ean) if ean else None,
-                            "sku": str(node.get("sku")) if node.get("sku") else None,
-                            "availability": avail,
-                            "list_price": list_price,
-                            "sale_from": extras.get("sale_from"),
-                        }
-            stack.extend(v for v in node.values() if isinstance(v, (dict, list)))
-    return None
+            match = page is not None and page in (_path(node.get("url"), url), _path(offer.get("url"), url))
+            candidates.append((match, node, offer, price))
+    if not candidates:
+        return None
+    match, node, offer, price = next((c for c in candidates if c[0]), candidates[0])
+    list_price = None
+    specs = offer.get("priceSpecification") or []
+    for spec in specs if isinstance(specs, list) else [specs]:
+        if isinstance(spec, dict) and str(spec.get("priceType", "")).endswith(("StrikethroughPrice", "ListPrice")):
+            list_price = _num(spec.get("price"))
+    ean = node.get("gtin13") or node.get("gtin") or node.get("gtin12") or node.get("gtin14") or node.get("ean")
+    avail = str(offer.get("availability", "")).rsplit("/", 1)[-1] or None
+    extras = parse_html_extras(html)
+    if list_price is None and extras.get("list_price") and extras["list_price"] > price:
+        list_price = extras["list_price"]
+    return {
+        "name": htmllib.unescape(node.get("name") or "")[:200],
+        "price": price,
+        "currency": offer.get("priceCurrency"),
+        "ean": str(ean) if ean else None,
+        "sku": str(node.get("sku")) if node.get("sku") else None,
+        "availability": avail,
+        "list_price": list_price,
+        "sale_from": extras.get("sale_from"),
+    }
