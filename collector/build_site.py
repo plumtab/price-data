@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """Turn raw daily price files into compact static history files the extension can fetch.
 
-Input:  data/prices/YYYY/MM/DD/<shop>-HHMM.jsonl.gz
-Output: <out>/v1/<shop>/<shard>.json   shard = first 2 hex chars of sha1(sku)
+Input:  data/prices/YYYY/MM/DD/<shop>-HHMM.jsonl.gz  (+ collector/catalog/<shop>.jsonl for names/EAN/URL)
+Output: <out>/v2/<shop>/<shard>.json   (extension >= 0.4) run-length history, only changes are stored:
+        { "<sku>": {"n": name, "e": ean, "l": last_day_seen, "h": [[ first_day_of_run, price, list_price_or_null, avail ], ...]} }
+        <out>/v2/ean/<shard>.json, <out>/v2/meta.json, <out>/v2/index.json   (same as v1)
+        <out>/v1/...  LEGACY daily format for extension 0.3 (remove once 0.4 is live, before 2026-11-01)
+        <out>/v1/<shop>/<shard>.json   shard = first 2 hex chars of sha1(sku)
         { "<sku>": {"n": name, "e": ean, "h": [[ "YYYY-MM-DD", price, list_price_or_null, avail_code ], ...]} }
         <out>/v1/ean/<shard>.json        shard = first 2 hex chars of sha1(ean)
         { "<ean>": [[shop, sku, latest_price, date, avail_code, url], ...] }   (only EANs at 2+ shops)
@@ -41,7 +45,16 @@ def main():
     ap.add_argument("--out", default=os.path.join(ROOT, "site"))
     args = ap.parse_args()
 
-    # (shop, sku) -> {"n","e", days: {day: [price, lp, avail]}}
+    # Catalog (names, EAN, URL) from the append-only catalog files; daily rows since 2026-10-04 don't repeat them.
+    catalog = {}
+    for path in glob.glob(os.path.join(ROOT, "collector", "catalog", "*.jsonl")):
+        shop = os.path.basename(path)[: -len(".jsonl")]
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                r = json.loads(line)
+                catalog[(shop, r["s"])] = r
+
+    # (shop, sku) -> {"n","e","u", days: {day: [price, lp, avail]}}
     products = {}
     # (shop, day) -> [priced, with_before_price]
     daily = collections.defaultdict(lambda: [0, set()])  # [unused, {(sku, has_before_price)}]
@@ -59,30 +72,44 @@ def main():
                 key = (shop, r["s"])
                 prod = products.setdefault(key, {"n": r.get("n"), "e": r.get("e"), "u": r.get("u"), "days": {}})
                 prod["n"], prod["e"], prod["u"] = r.get("n") or prod["n"], r.get("e") or prod["e"], r.get("u") or prod["u"]
-                avail = 1 if r.get("a") in IN_STOCK else 0
+                a = r.get("a")
+                avail = a if isinstance(a, int) else (1 if a in IN_STOCK else 0)
                 obs = [r["p"], r.get("lp"), avail]
                 daily[(shop, day)][1].add((r["s"], bool(r.get("lp") and r["lp"] > r["p"] + 0.5)))
                 cur = prod["days"].get(day)
                 if cur is None or obs[0] < cur[0]:
                     prod["days"][day] = obs
 
-    out = os.path.join(args.out, "v1")
-    shards = collections.defaultdict(dict)
+    # Catalog entries win for names/EAN/URL (they're the latest known values).
+    for key, prod in products.items():
+        c = catalog.get(key)
+        if c:
+            prod["n"], prod["e"], prod["u"] = c.get("n") or prod["n"], c.get("e") or prod["e"], c.get("u") or prod["u"]
+
+    shards_v1 = collections.defaultdict(dict)
+    shards_v2 = collections.defaultdict(dict)
     by_ean = collections.defaultdict(list)
     shop_counts = collections.Counter()
     for (shop, sku), prod in products.items():
         hist = [[d] + prod["days"][d] for d in sorted(prod["days"])]
-        shards[(shop, shard(sku))][sku] = {"n": prod["n"], "e": prod["e"], "h": hist}
+        runs = []
+        for h in hist:
+            if not runs or runs[-1][1:] != h[1:]:
+                runs.append(h)
+        shards_v1[(shop, shard(sku))][sku] = {"n": prod["n"], "e": prod["e"], "h": hist}
+        shards_v2[(shop, shard(sku))][sku] = {"n": prod["n"], "e": prod["e"], "l": hist[-1][0], "h": runs}
         shop_counts[shop] += 1
         if prod["e"]:
             last = hist[-1]
             by_ean[prod["e"]].append([shop, sku, last[1], last[0], last[3], prod["u"]])
 
-    for (shop, sh), data in shards.items():
-        d = os.path.join(out, shop)
-        os.makedirs(d, exist_ok=True)
-        with open(os.path.join(d, f"{sh}.json"), "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    for version, shards in (("v1", shards_v1), ("v2", shards_v2)):
+        for (shop, sh), data in shards.items():
+            d = os.path.join(args.out, version, shop)
+            os.makedirs(d, exist_ok=True)
+            with open(os.path.join(d, f"{sh}.json"), "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    out = os.path.join(args.out, "v1")
 
     ean_shards = collections.defaultdict(dict)
     for ean, offers in by_ean.items():
@@ -110,6 +137,11 @@ def main():
             "shops": dict(shop_counts)}
     with open(os.path.join(out, "meta.json"), "w") as f:
         json.dump(meta, f, indent=1)
+    # v2 shares the EAN index, index and meta with v1.
+    import shutil
+    for name in ("meta.json", "index.json"):
+        shutil.copy(os.path.join(out, name), os.path.join(args.out, "v2", name))
+    shutil.copytree(os.path.join(out, "ean"), os.path.join(args.out, "v2", "ean"), dirs_exist_ok=True)
     print(json.dumps(meta))
 
 

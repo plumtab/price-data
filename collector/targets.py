@@ -9,6 +9,7 @@ Usage: python collector/targets.py [shop ...]   -> writes collector/targets/<sho
 """
 import hashlib
 import os
+import re
 import sys
 import time
 import urllib.robotparser
@@ -20,17 +21,25 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def product_urls(cfg):
-    status, xml = fetch(cfg["sitemap_index"])
-    if status != 200:
-        raise RuntimeError(f"sitemap index {status}")
-    subs = [u for u in sitemap_locs(xml) if cfg["product_sitemap_hint"] in u] if "<sitemapindex" in xml else [cfg["sitemap_index"]]
-    urls = []
-    for sub in subs:
-        st, body = fetch(sub)
-        if st == 200:
-            urls.extend(sitemap_locs(body))
-        time.sleep(0.5)
-    return urls
+    """All URLs from the shop's product sitemaps. Follows nested sitemap indexes; at the top level only
+    sub-sitemaps matching `product_sitemap_hint` (a regex) are followed."""
+    def walk(url, depth):
+        status, xml = fetch(url)
+        if status != 200:
+            if depth == 0:
+                raise RuntimeError(f"sitemap index {status}")
+            return []
+        locs = sitemap_locs(xml)
+        if "<sitemapindex" not in xml or depth >= 3:
+            return locs
+        if depth == 0:
+            locs = [u for u in locs if re.search(cfg["product_sitemap_hint"], u)]
+        out = []
+        for sub in locs:
+            out.extend(walk(sub, depth + 1))
+            time.sleep(0.3)
+        return out
+    return walk(cfg["sitemap_index"], 0)
 
 
 def robots_filter(urls, cfg):
