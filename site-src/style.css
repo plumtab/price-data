@@ -1,32 +1,48 @@
-:root { --ink: #111; --muted: #555; --paper: #fff; --line: #e3e3e3; --dash: #eaeaea; --bad: #c8102e; --good: #1e7b34; --mono: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-body { font-variant-numeric: tabular-nums; }
+:root { --ink: #111; --muted: #5c5c5c; --line: #e2e2e2; --bg: #fff; }
 * { box-sizing: border-box; }
-body { margin: 0; background: #f3f1ec; color: var(--ink); font: 17px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
-header.top { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
-header.top img { width: 26px; height: 26px; }
-.brand { font: 700 14px/1 var(--mono); letter-spacing: 0; font-size: 16px; color: var(--ink); text-decoration: none; }
-.brand small { font: 400 13px/1 -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: 0; color: var(--muted); margin-left: 6px; }
-h1 { font-size: clamp(32px, 6.5vw, 50px); line-height: 1.08; margin: 0 0 16px; letter-spacing: -1px; }
-h2 { font-size: 22px; margin: 40px 0 8px; }
-p.lead { font-size: 20px; color: var(--muted); margin: 0 0 28px; }
-a { color: var(--ink); text-underline-offset: 3px; }
-.receipts { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin: 24px 0; }
-.receipt { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; padding: 0 14px 12px; box-shadow: 0 8px 22px rgba(0,0,0,.08); }
-.receipt::before { content: ""; display: block; height: 3px; margin: 0 -14px 12px; background: transparent; }
-.receipt.bad::before { background: var(--bad); } .receipt.good::before { background: var(--good); }
-.receipt .t { font-weight: 800; font-size: 17px; line-height: 1.2; margin-bottom: 8px; }
-.receipt .t b { font-family: var(--mono); margin-right: 6px; }
-.receipt.bad .t b { color: var(--bad); } .receipt.good .t b { color: var(--good); }
-.receipt .r { display: flex; justify-content: space-between; font-size: 14px; border-top: 1px solid var(--dash); padding-top: 6px; margin-top: 6px; }
-.receipt .r span:last-child { font: 600 14px var(--mono); }
-.note { border-left: 4px solid var(--ink); padding: 4px 0 4px 14px; color: var(--muted); }
-footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--dash); font-size: 14px; color: var(--muted); }
-code { font-family: var(--mono); background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 1px 6px; font-size: .88em; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+main { max-width: 680px; margin: 0 auto; padding: 20px 16px 64px; }
+a { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
 
-.index table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 16px; }
-.index th, .index td { padding: 9px 12px; border-top: 1px solid var(--dash); text-align: left; }
-.index thead th { border-top: 0; font-size: 13px; font-weight: 600; color: var(--muted); }
-.index .n { text-align: right; font-family: var(--mono); } .index .strong { font-weight: 700; }
-.index .spark { width: 90px; height: 20px; } .index .spark polyline { fill: none; stroke: var(--ink); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 14px; margin-bottom: 44px; border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; align-items: center; gap: 9px; font-weight: 650; font-size: 17px; text-decoration: none; }
+.brand img { width: 22px; height: 22px; }
+.brand small { font-weight: 400; font-size: 14px; color: var(--muted); }
+header.top nav { display: flex; gap: 18px; font-size: 15px; }
+header.top nav a { text-decoration: none; color: var(--muted); }
+header.top nav a:hover { color: var(--ink); text-decoration: underline; }
+
+h1 { font-size: clamp(30px, 5.4vw, 42px); line-height: 1.12; letter-spacing: -0.5px; font-weight: 700; margin: 0 0 14px; }
+h2 { font-size: 21px; line-height: 1.3; margin: 48px 0 8px; }
+h3 { font-size: 17px; margin: 24px 0 4px; }
+p.lead { font-size: 19px; line-height: 1.5; margin: 0 0 12px; }
+p.facts { color: var(--muted); margin: 0 0 32px; }
+ul { padding-left: 20px; } li { margin: 4px 0; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .88em; background: #f4f4f4; border-radius: 3px; padding: 1px 5px; }
+
+figure.example { margin: 0 0 8px; }
+figure.example img { display: block; width: 100%; max-width: 420px; height: auto; margin: -18px 0 -18px -24px; }
+figure.example figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; }
+
+dl.states { margin: 12px 0 0; }
+dl.states dt { font-weight: 600; margin-top: 14px; }
+dl.states dd { margin: 2px 0 0; color: #333; }
+
+.index table { width: 100%; border-collapse: collapse; font-size: 16px; margin-top: 12px; }
+.index th, .index td { padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); text-align: left; }
+.index thead th { font-size: 13px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--ink); }
+.index .n { text-align: right; padding-right: 16px; }
+.index .spark { width: 90px; height: 20px; display: block; }
+.index .spark polyline { fill: none; stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+
 .small { font-size: 14px; color: var(--muted); } .muted { color: var(--muted); }
+.note { color: var(--muted); }
+footer { margin-top: 64px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #ededed; --muted: #a3a3a3; --line: #333; --bg: #141414; }
+  dl.states dd { color: #d0d0d0; } code { background: #222; }
+  .brand img { filter: invert(1); }
+}
+@media (max-width: 480px) { .index th:last-child, .index td:last-child { display: none; } }

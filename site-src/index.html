@@ -2,81 +2,103 @@
 <html lang="da">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Førpris – er tilbuddet ægte?</title>
+<title>Førpris – tjek om tilbuddet er ægte</title>
 <meta name="description" content="Førpris viser på danske webshops, om førprisen holder: var varen virkelig dyrere i de 30 dage før tilbuddet?">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="icon.png">
 </head>
 <body><main>
-<header class="top"><img src="icon.png" alt=""><a class="brand" href="./">Førpris<small>et værktøj fra Plumtab</small></a></header>
+<header class="top">
+  <a class="brand" href="./"><img src="icon.png" alt="">Førpris</a>
+  <nav><a href="#metode">Metode</a><a href="https://github.com/plumtab/price-data">Data</a><a href="privacy.html">Privatliv</a></nav>
+</header>
 
-<h1>Er tilbuddet ægte?</h1>
-<p class="lead">Førpris viser direkte på webshoppens produktside, om førprisen holder, og hvad varen har kostet de seneste uger.</p>
+<h1>Førpris tjekker, om førprisen holder.</h1>
+<p class="lead">En udvidelse til Chrome og Edge. Når en vare er på tilbud i en dansk webshop, sammenligner den butikkens førpris med de priser, vi selv har registreret dag for dag.</p>
+<p id="facts" class="facts">Vi registrerer priser hver dag siden 2. oktober 2026.</p>
 
-<div class="receipts">
-  <div class="receipt bad"><div class="t"><b>✕</b>Vi har set den billigere</div>
-    <div class="r"><span>Butikkens førpris</span><span>7.999</span></div>
-    <div class="r"><span>Pris nu</span><span>4.888</span></div>
-    <div class="r"><span>Laveste pris 30 dage før</span><span>4.888</span></div></div>
-  <div class="receipt good"><div class="t"><b>✓</b>Førprisen stemmer</div>
-    <div class="r"><span>Butikkens førpris</span><span>9.499</span></div>
-    <div class="r"><span>Pris nu</span><span>7.499</span></div>
-    <div class="r"><span>Laveste pris 30 dage før</span><span>9.499</span></div></div>
-  <div class="receipt"><div class="t"><b>↑</b>12% over laveste pris</div>
-    <div class="r"><span>Pris nu</span><span>2.799</span></div>
-    <div class="r"><span>Laveste pris set</span><span>2.499</span></div>
-    <div class="r"><span>Billigere hos Bilka</span><span>2.599</span></div></div>
-</div>
-<p class="small">Eksempler med fiktive priser.</p>
+<figure class="example">
+  <img src="example-card.png" width="430" alt="Førpris-kortet på en vare: Vi har set den billigere. Butikkens førpris 3.999 kr., pris nu 2.999 kr., laveste pris i de 30 dage før 2.999 kr., med en prisgraf.">
+  <figcaption>Sådan ser det ud på en vare. Eksempel med fiktiv vare og fiktive priser.</figcaption>
+</figure>
+
+<h2>Hvad kortet kan sige</h2>
+<dl class="states">
+  <dt>Vi har set den billigere</dt>
+  <dd>Vi har registreret en lavere pris end butikkens førpris i de 30 dage før tilbuddet. Det er det eneste tilfælde, hvor kortet åbner af sig selv.</dd>
+  <dt>Førprisen stemmer</dt>
+  <dd>Vi har fulgt varen i alle 30 dage før tilbuddet, og den var ikke billigere end førprisen.</dd>
+  <dt>Ingen lavere pris set</dt>
+  <dd>Vi har ikke set varen billigere end førprisen, men vi har ikke fulgt den i alle 30 dage endnu.</dd>
+  <dt>Førprisen kan ikke tjekkes endnu</dt>
+  <dd>Tilbuddet startede, før vi begyndte at følge prisen.</dd>
+  <dt>12 % over laveste pris</dt>
+  <dd>Varen er ikke på tilbud. Kortet viser, hvor prisen ligger i forhold til den laveste, vi har set.</dd>
+  <dt>Billigere hos …</dt>
+  <dd>Samme vare, med samme stregkode, koster mindre i en anden butik lige nu og er på lager der.</dd>
+</dl>
 
 <h2 id="reglen">Reglen</h2>
-<p>Når en butik markedsfører en prisnedsættelse, skal førprisen som udgangspunkt være den laveste pris i de 30 dage før nedsættelsen. Det følger af de danske og europæiske regler om prismarkedsføring. Alligevel viser undersøgelser år efter år, at en stor del af Black Friday-tilbuddene ikke er så gode, som de ser ud.</p>
+<p>Når en butik markedsfører en prisnedsættelse, skal førprisen som udgangspunkt være den laveste pris, butikken har haft i de 30 dage før nedsættelsen. Reglen kommer fra EU’s prismærkningsdirektiv (artikel 6a) og gælder også i Danmark.</p>
+<p>Førpris siger ikke, at en butik har brudt reglen. Den viser, hvad vi har registreret, så du selv kan vurdere tilbuddet.</p>
 
-<h2>Sådan læser du Førpris</h2>
-<p>Vi har set den billigere: varen har kostet mindre end butikkens førpris i de 30 dage før tilbuddet. Førprisen stemmer: varen kostede faktisk førprisen. Kan ikke tjekkes endnu: tilbuddet startede, før vi begyndte at følge prisen, eller vi har ikke data nok. Vi udtaler os aldrig om mere, end vores egne registreringer viser.</p>
-
-<h2>Sådan virker det</h2>
-<p>Vi registrerer hver dag priserne på titusindvis af varer hos Power, Elgiganten, Bilka, Imerco og Magasin. Når du åbner en vare, sammenligner Førpris butikkens førpris med de priser, vi selv har registreret. Vi udtaler os kun om det, vores egne data viser.</p>
-<p class="note">Førpris er gratis. Ingen login, ingen sporing og ingen kunstig intelligens: kun priser, datoer og en regel. Udvidelsen henter offentlige prisfiler og sender intet om dig nogen steder hen.</p>
-<p>Alle vores data er offentlige, så alle kan efterprøve dem: <a href="https://github.com/plumtab/price-data">github.com/plumtab/price-data</a>.</p>
+<h2 id="metode">Sådan får vi priserne</h2>
+<p>Vores prisrobot besøger hver dag produktsiderne hos Power, Elgiganten, Bilka, Imerco, Magasin, Matas, Coolshop, Føtex og Harald Nyborg og gemmer pris, førpris og lagerstatus. Den oplyser sit navn og en kontaktadresse og respekterer butikkernes robots.txt. <a href="bot.html">Om prisrobotten</a>.</p>
+<p>Udvidelsen læser prisen fra den side, du har åben, og henter vores offentlige prisfil for varen. Den sender intet om dig. Priser på varer, du selv ser, gemmes kun i din browser.</p>
+<p>Begrænsninger:</p>
+<ul>
+  <li>Vi kender kun de dage, vi har registreret. Mangler vi en dag, kan vi have overset en lavere pris.</li>
+  <li>Hos Bilka, Matas, Føtex og Harald Nyborg kan vi endnu ikke aflæse førprisen. Der viser Førpris prishistorikken og billigere tilbud andre steder.</li>
+  <li>Medlemspriser og “køb 2”-tilbud tjekker vi ikke.</li>
+</ul>
 
 <h2>Førpris-indekset</h2>
-<p>Hvor stor en del af de varer, vi følger, vises i dag med en førpris, altså som “tilbud”? Opdateres hver morgen. Følg med, når Black Friday nærmer sig.</p>
-<div id="index" class="index"><p class="muted">Henter data…</p></div>
-<p class="small">Metode: andelen af de varer, vi registrerer hos butikken den pågældende dag, hvor butikken viser en overstreget førpris over den aktuelle pris. “–” betyder, at vi ikke kan aflæse førpriser hos butikken. Rådata: <a href="https://github.com/plumtab/price-data">github.com/plumtab/price-data</a>.</p>
+<p>Hvor stor en del af de varer, vi følger, viser butikken i dag med en overstreget førpris? Tallet opdateres hver dag frem mod Black Friday den 27. november.</p>
+<div id="index" class="index"><p class="small">Henter data …</p></div>
 
 <h2>Status</h2>
-<p>Vi har registreret priser hver dag siden 2. oktober 2026 og følger nu omkring 95.000 varer. Udvidelsen til Chrome og Edge er på vej.</p>
+<p>Udvidelsen er i test hos en lille gruppe og bliver offentlig i Chrome Web Store før Black Friday. Alle prisdata ligger allerede offentligt på <a href="https://github.com/plumtab/price-data">GitHub</a>, så alle kan efterprøve dem.</p>
+
+<footer>
+  Førpris er lavet af Plumtab. Kontakt: plumtab.studio@gmail.com<br>
+  <a href="privacy.html">Privatliv</a> · <a href="bot.html">Om prisrobotten</a> · <a href="https://github.com/plumtab/price-data">Data på GitHub</a>
+</footer>
 
 <script>
 (async () => {
-  const el = document.getElementById("index");
-  const NAMES = { power: "Power", elgiganten: "Elgiganten", bilka: "Bilka", imerco: "Imerco", magasin: "Magasin" };
+  const NAMES = { power: "Power", elgiganten: "Elgiganten", bilka: "Bilka", imerco: "Imerco", magasin: "Magasin",
+    matas: "Matas", coolshop: "Coolshop", fotex: "Føtex", "harald-nyborg": "Harald Nyborg" };
   const fmt = (n) => n.toLocaleString("da-DK");
+  const dato = (d) => new Date(d + "T00:00:00Z").toLocaleDateString("da-DK", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+  const get = async (f) => (await fetch(f, { cache: "no-cache" })).json();
+  const el = document.getElementById("index");
   try {
-    const d = await (await fetch("v1/index.json", { cache: "no-cache" })).json();
-    const last = d.days[d.days.length - 1];
-    const dato = new Date(last + "T00:00:00Z").toLocaleDateString("da-DK", { day: "numeric", month: "long", timeZone: "UTC" });
-    const rows = Object.keys(d.shops).sort().map((shop) => {
-      const series = d.days.map((day) => d.shops[shop][day]).filter(Boolean);
-      const [n, k] = d.shops[shop][last] || series[series.length - 1] || [0, 0];
+    const d = await get("v2/index.json");
+    let total = 0;
+    const rows = Object.keys(d.shops).sort((a, b) => (NAMES[a] || a).localeCompare(NAMES[b] || b, "da")).map((shop) => {
+      const byDay = d.shops[shop];
+      const days = d.days.filter((day) => byDay[day]);
+      const max = Math.max(...days.map((day) => byDay[day][0]));
+      // Skip partial days (e.g. a test run): use the latest day with at least half the usual number of products.
+      const full = days.filter((day) => byDay[day][0] >= max * 0.5);
+      const [n, k] = byDay[full[full.length - 1]] || [0, 0];
+      total += n;
       const measured = !(d.before_price_not_measured || []).includes(shop);
       const share = measured && n ? Math.round((k / n) * 100) + " %" : "–";
       let spark = "";
-      if (measured && series.length > 1) {
-        const v = series.map(([a, b]) => (a ? b / a : 0)), hi = Math.max(...v, 0.01);
+      if (measured && full.length > 1) {
+        const v = full.map((day) => byDay[day][1] / byDay[day][0]), hi = Math.max(...v, 0.01);
         const pts = v.map((x, i) => `${(i / (v.length - 1)) * 100},${20 - (x / hi) * 18}`).join(" ");
-        spark = `<svg viewBox="0 0 100 20" preserveAspectRatio="none" class="spark"><polyline points="${pts}"/></svg>`;
+        spark = `<svg viewBox="0 0 100 20" preserveAspectRatio="none" class="spark" aria-hidden="true"><polyline points="${pts}"/></svg>`;
       }
-      return `<tr><td>${NAMES[shop] || shop}</td><td class="n">${fmt(n)}</td><td class="n strong">${share}</td><td>${spark}</td></tr>`;
+      return `<tr><td>${NAMES[shop] || shop}</td><td class="n">${fmt(n)}</td><td class="n">${share}</td><td>${spark}</td></tr>`;
     }).join("");
-    el.innerHTML = `<table><thead><tr><th>Butik</th><th class="n">Varer fulgt</th><th class="n">Med førpris</th><th></th></tr></thead><tbody>${rows}</tbody></table><p class="small">Senest opdateret ${dato}.</p>`;
+    el.innerHTML = `<table><thead><tr><th>Butik</th><th class="n">Varer fulgt</th><th class="n">Med førpris</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+      <p class="small">“–” betyder, at vi ikke kan aflæse førpriser hos butikken. Rådata ligger på <a href="https://github.com/plumtab/price-data">GitHub</a>.</p>`;
+    document.getElementById("facts").textContent =
+      `Vi følger lige nu ${fmt(total)} varer i ${Object.keys(d.shops).length} butikker og har registreret priser hver dag siden ${dato(d.days[0])}.`;
   } catch (e) { el.innerHTML = '<p class="small">Kunne ikke hente indekset lige nu.</p>'; }
 })();
 </script>
-
-<footer>
-  Førpris er lavet af Plumtab · <a href="privacy.html">Privatliv</a> · <a href="bot.html">Om vores prisrobot</a> · <a href="https://github.com/plumtab/price-data">Data på GitHub</a> · plumtab.studio@gmail.com
-</footer>
 </main></body>
 </html>
