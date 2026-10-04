@@ -11,6 +11,7 @@ Usage: python collector/collect.py [--limit N] [shop ...]
 """
 import argparse
 import datetime as dt
+import glob
 import gzip
 import json
 import os
@@ -70,15 +71,34 @@ def run_shop(name, limit=None, workers=None, delay=None):
     return summary
 
 
+def collected_today(name, min_share=0.8):
+    """True if today's files for this shop already cover most of its targets."""
+    day = dt.datetime.now(dt.timezone.utc).strftime("%Y/%m/%d")
+    targets = sum(1 for _ in open(os.path.join(HERE, "targets", f"{name}.txt")))
+    seen = set()
+    for path in glob.glob(os.path.join(ROOT, "data", "prices", day, f"{name}-*.jsonl.gz")):
+        with gzip.open(path, "rt", encoding="utf-8") as f:
+            for line in f:
+                seen.add(json.loads(line)["u"])
+    return len(seen) >= min_share * targets
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--workers", type=int, default=None, help="override per-shop concurrency")
     ap.add_argument("--delay", type=float, default=None, help="override per-shop delay (seconds)")
+    ap.add_argument("--skip-existing", action="store_true",
+                    help="skip shops that already have a full collection for today (backup runs only fill gaps)")
     ap.add_argument("shops", nargs="*")
     args = ap.parse_args()
     in_ci = os.environ.get("CI") == "true"
     names = args.shops or [n for n, c in SHOPS.items() if not (in_ci and c.get("ci") is False)]
+    if args.skip_existing:
+        names = [n for n in names if not collected_today(n)]
+        print(json.dumps({"skip_existing": True, "to_collect": names}))
+        if not names:
+            return
     with ThreadPoolExecutor(len(names)) as pool:
         results = list(pool.map(lambda n: run_shop(n, args.limit, args.workers, args.delay), names))
     # Fail the CI run only if *every* shop came back empty (something is badly wrong).

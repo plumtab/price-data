@@ -2,7 +2,8 @@ name: daily
 
 on:
   schedule:
-    - cron: "17 4 * * *"   # ~06:17 Danish time
+    - cron: "17 4 * * *"    # ~06:17 Danish time (GitHub often starts scheduled runs hours late)
+    - cron: "41 16 * * *"   # backup: only collects shops that don't have today's data yet
   push:
     branches: [main]
     paths: ["data/**", "site-src/**", "collector/build_site.py"]
@@ -42,6 +43,8 @@ jobs:
         run: |
           if [ -n "${{ inputs.limit }}" ]; then
             python collector/collect.py --limit "${{ inputs.limit }}"
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
+            python collector/collect.py --skip-existing
           else
             python collector/collect.py
           fi
