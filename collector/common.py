@@ -8,7 +8,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-USER_AGENT = "PlumtabPriceBot/0.1 (+https://plumtab.github.io/price-data/bot.html; plumtab.studio@gmail.com)"
+USER_AGENT = "ForprisBot/0.1 (+https://plumtab.github.io/price-data/bot.html; plumtab.studio@gmail.com)"
 TIMEOUT = 30
 
 
