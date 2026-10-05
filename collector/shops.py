@@ -131,6 +131,20 @@ SHOPS = {
         "delay": 0,
         "measures_before_price": False,
     },
+    "jysk": {
+        # Furniture and home. One flat sitemap with categories, guides and products mixed; products are the
+        # pages 4+ levels deep. Jysk shows its own "Laveste pris 30 dage" next to discounts (see common.jysk_promotion).
+        "base": "https://jysk.dk",
+        "sitemap_index": "https://jysk.dk/sitemap.xml",
+        "product_sitemap_hint": r".",
+        "url_regex": r"^https://jysk\.dk/(?!inspiration/|b2b/|butikker)[^/]+/[^/]+/[^/]+/[^/]+",
+        "categories": ["/sovevaerelse/", "/indretning/", "/gardiner/", "/badevaerelse/", "/spisestue/", "/opbevaring/",
+                       "/have/", "/stue/", "/jul/", "/kontor/", "/entre/"],
+        "per_category_cap": 3000,
+        "cap": 7000,
+        "workers": 3,
+        "delay": 0.3,
+    },
 }
 
 # Max products per category prefix, so one huge category can't crowd out the rest.

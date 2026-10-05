@@ -58,6 +58,8 @@ def select(urls, cfg, previous=()):
     key = lambda u: hashlib.sha1(u.encode()).hexdigest()
     if cfg.get("url_must_contain"):
         urls = [u for u in urls if cfg["url_must_contain"] in u]
+    if cfg.get("url_regex"):
+        urls = [u for u in urls if re.search(cfg["url_regex"], u)]
     alive = set(urls)
     chosen = []
     for prefix in cfg["categories"]:

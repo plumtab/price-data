@@ -134,6 +134,33 @@ def salling_promotion(html):
     return {"list_price": lp, "start": start}
 
 
+def jysk_promotion(html, url):
+    """Jysk (Next.js) puts the product's price block in the page data, with explicit display flags:
+    formatted.beforePricePrimary + beforePricePrimaryShow + beforePricePrimaryTextIndicator ("lowestPrice" =
+    Jysk's own "Laveste pris 30 dage: …", "normalPrice" = "Normalpris: …"). Only a shown before-price counts, and
+    never a club (membership) price. Returns the shown before-price, or None."""
+    page = _path(url)
+    if not page:
+        return None
+    h = html.replace('\\"', '"')
+    i = h.find('"url":"' + page + '","title":')
+    if i < 0:
+        i = h.lower().find('"url":"' + page)
+    if i < 0:
+        return None
+    m = re.search(r'"price":\{"unformatted":(\{[^{}]*\}),"formatted":(\{[^{}]*\})', h[i:i + 3000])
+    if not m:
+        return None
+    try:
+        unf, fmt = json.loads(m.group(1)), json.loads(m.group(2))
+    except json.JSONDecodeError:
+        return None
+    if not fmt.get("beforePricePrimaryShow") or unf.get("membership") is not None or fmt.get("membership") is not None:
+        return None
+    n = re.match(r"\s*([\d.]+(?:,\d+)?)", fmt.get("beforePricePrimary") or "")
+    return _num(n.group(1).replace(".", "")) if n else None
+
+
 def parse_html_extras(html, url=None):
     """Shop-rendered details not in JSON-LD: a strikethrough list price (Magasin) and a printed offer start ("dd/mm")."""
     out = {}
@@ -145,6 +172,10 @@ def parse_html_extras(html, url=None):
         out["sale_from"] = f"{int(m.group(1)):02d}/{int(m.group(2)):02d}"
     # Føtex only: Bilka keeps a list_price in the same data but doesn't show it (helper checked the live pages,
     # Oct 5: a 2–8 Oct campaign on bilka.dk shows "SE HER", no "Før"; foetex.dk shows "Spar 30% · Før 1.300,-").
+    if url and "jysk.dk" in url:
+        jp = jysk_promotion(html, url)
+        if jp:
+            out["list_price"] = jp
     sp = salling_promotion(html) if url and "foetex.dk" in url else None
     if sp:
         out["list_price"] = sp["list_price"]

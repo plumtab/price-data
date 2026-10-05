@@ -64,6 +64,22 @@ class ParseProduct(unittest.TestCase):
         no_promo = page(doc) + nuxt(910, 910, "e", "e")
         self.assertIsNone(parse_product(no_promo, "https://www.foetex.dk/produkter/x/1/")["list_price"])
 
+    def test_jysk_before_price_only_when_shown(self):
+        def rsc(path, before, show="true", membership="null"):
+            block = ('{"url":"%s","title":"Springmadras","price":{"unformatted":{"gross":2649,"membership":%s,"minSingle":1600},'
+                     '"formatted":{"gross":"1600,-","membership":%s,"beforePricePrimary":"%s",'
+                     '"beforePricePrimaryTextIndicator":"lowestPrice","beforePricePrimaryShow":%s},"discount":{"percentage":40}}}'
+                     % (path, membership, membership, before, show))
+            return '<script>self.__next_f.push([1,"%s"])</script>' % block.replace('"', '\\"')
+        doc = {"@type": "Product", "sku": "3264381", "offers": {"price": 1600}}
+        url = "https://jysk.dk/sovevaerelse/madrasser/springmadrasser/springmadras-stria"
+        path = "/sovevaerelse/madrasser/springmadrasser/springmadras-stria"
+        other = rsc("/sovevaerelse/madrasser/andet", "9.149,- /stk.")  # a recommended product listed first
+        self.assertEqual(parse_product(page(doc) + other + rsc(path, "2.649,- /stk."), url)["list_price"], 2649)
+        self.assertIsNone(parse_product(page(doc) + rsc(path, "2.649,- /stk.", show="false"), url)["list_price"])
+        self.assertIsNone(parse_product(page(doc) + rsc(path, "2.649,- /stk.", membership="1600"), url)["list_price"])
+        self.assertIsNone(parse_product(page(doc) + other, url)["list_price"])
+
     def test_no_offer(self):
         self.assertIsNone(parse_product(page({"@type": "WebPage"})))
 
