@@ -41,6 +41,12 @@ class ParseProduct(unittest.TestCase):
         p = parse_product(page({"@type": "BreadcrumbList"}, doc), "https://www.power.dk/x/p-1/")
         self.assertEqual((p["price"], p["list_price"], p["availability"]), (4888, 7999, "InStock"))
 
+    def test_size_variant_recorded(self):
+        doc = {"@type": "Product", "sku": "BOIX24", "offers": {"price": "910", "url": "https://www.magasin.dk/x/S14935921.html"}}
+        p = parse_product(page(doc), "https://www.magasin.dk/eau-de-grey-vetiver-eau-de-toilette/BOIX24.html")
+        self.assertEqual((p["sku"], p["variant"]), ("BOIX24", "s14935921"))
+        self.assertIsNone(parse_product(page(GROUP), "https://www.matas.dk/fiskeolie-120-kaps")["variant"])
+
     def test_no_offer(self):
         self.assertIsNone(parse_product(page({"@type": "WebPage"})))
 

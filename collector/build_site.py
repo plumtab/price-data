@@ -92,10 +92,11 @@ def main():
                 prod["n"], prod["e"], prod["u"] = r.get("n") or prod["n"], r.get("e") or prod["e"], r.get("u") or prod["u"]
                 a = r.get("a")
                 avail = a if isinstance(a, int) else (1 if a in IN_STOCK else 0)
-                obs = [r["p"], r.get("lp"), avail]
+                obs = [r["p"], r.get("lp"), avail, r.get("v")]
                 daily[(shop, day)][1].add((r["s"], bool(r.get("lp") and r["lp"] > r["p"] + 0.5)))
                 cur = prod["days"].get(day)
-                if cur is None or obs[0] < cur[0]:
+                # Lowest price of the day wins; at the same price, prefer the reading that has a before-price.
+                if cur is None or obs[0] < cur[0] or (obs[0] == cur[0] and obs[1] and not cur[1]):
                     prod["days"][day] = obs
 
     # Catalog entries win for names/EAN/URL (they're the latest known values).
@@ -109,7 +110,11 @@ def main():
     by_ean = collections.defaultdict(list)
     shop_counts = collections.Counter()
     for (shop, sku), prod in products.items():
-        hist = [[d] + prod["days"][d] for d in sorted(prod["days"])]
+        # Size variants (Magasin): keep only days of the size the page shows now. Untagged rows (before Oct 5) stay.
+        cur_v = prod["days"][max(prod["days"])][3]
+        if cur_v:
+            prod["days"] = {d: o for d, o in prod["days"].items() if o[3] in (None, cur_v)}
+        hist = [[d] + prod["days"][d][:3] for d in sorted(prod["days"])]
         runs = []
         for h in hist:
             if not runs or runs[-1][1:] != h[1:]:

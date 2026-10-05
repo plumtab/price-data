@@ -47,6 +47,8 @@ def scrape(url, delay=0):
         row["lp"] = prod["list_price"]
     if prod.get("sale_from"):
         row["sf"] = prod["sale_from"]
+    if prod.get("variant"):
+        row["v"] = prod["variant"]
     row["_meta"] = {"n": prod["name"], "e": prod["ean"], "u": url}
     return row
 

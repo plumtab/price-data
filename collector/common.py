@@ -131,6 +131,12 @@ def parse_product(html, url=None):
     extras = parse_html_extras(html)
     if list_price is None and extras.get("list_price") and extras["list_price"] > price:
         list_price = extras["list_price"]
+    # Magasin-style pages: one Product, but the offer is for a specific size whose own URL differs from the page.
+    # Record that size, so a size switch is never mistaken for a price change.
+    variant = None
+    offer_path = _path(offer.get("url"), url)
+    if page and offer_path and offer_path != page:
+        variant = offer_path.rsplit("/", 1)[-1].split(".")[0][:40] or None
     return {
         "name": htmllib.unescape(node.get("name") or "")[:200],
         "price": price,
@@ -140,4 +146,5 @@ def parse_product(html, url=None):
         "availability": avail,
         "list_price": list_price,
         "sale_from": extras.get("sale_from"),
+        "variant": variant,
     }
