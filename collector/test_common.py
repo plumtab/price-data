@@ -64,6 +64,16 @@ class ParseProduct(unittest.TestCase):
         no_promo = page(doc) + nuxt(910, 910, "e", "e")
         self.assertIsNone(parse_product(no_promo, "https://www.foetex.dk/produkter/x/1/")["list_price"])
 
+    def test_magasin_strikethrough_in_either_class_order(self):
+        doc = {"@type": "Product", "sku": "BSID15", "offers": {"price": "599.00"}}
+        for cls in ("strike-through list b-price__el-type", "b-price__el-type strike-through list"):
+            html = page(doc) + ('<span class="b-price__el-type sales -list"><span class="b-price__value value" content="599.00">599 kr.</span></span>'
+                                '<span class="%s"> <span class="b-price__value value" content="1199.00">1.199 kr.</span></span>'
+                                '<div class="pdp__saledateinfo">Gælder 28/09 - 25/10</div>' % cls)
+            p = parse_product(html, "https://www.magasin.dk/x/BSID15-0008.html")
+            self.assertEqual((p["list_price"], p["sale_from"]), (1199, "28/09"))
+        self.assertIsNone(parse_product(page(doc), "https://www.magasin.dk/x/BSID15-0008.html")["list_price"])
+
     def test_jysk_before_price_only_when_shown(self):
         def rsc(path, before, show="true", membership="null"):
             block = ('{"url":"%s","title":"Springmadras","price":{"unformatted":{"gross":2649,"membership":%s,"minSingle":1600},'

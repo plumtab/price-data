@@ -55,7 +55,10 @@ def _num(x):
         return None
 
 
-_STRIKE_RE = re.compile(r'class="strike-through list[^"]*".{0,400}?content="([\d.]+)"', re.S)
+# Magasin writes the classes in either order ("strike-through list b-price__el-type" or "b-price__el-type strike-through
+# list"); until Oct 5 only the first was read, which missed ~70 % of its Sep 23 - Oct 4 campaign. Pages without an offer
+# have no strike-through at all (checked), so recommendations can't leak in.
+_STRIKE_RE = re.compile(r'class="[^"]*\bstrike-through list\b[^"]*".{0,400}?content="([\d.]+)"', re.S)
 _SALEDATE_RE = re.compile(r'(?:saledateinfo">\s*Gælder|Tilbud(?:det)? gælder fra(?: d\.)?)\s*(\d{1,2})/(\d{1,2})')
 
 
