@@ -3,7 +3,8 @@
 
 Input:  data/prices/YYYY/MM/DD/<shop>-HHMM.jsonl.gz  (+ collector/catalog/<shop>.jsonl for names/EAN/URL)
 Output: <out>/v2/<shop>/<shard>.json   (extension >= 0.4) run-length history, only changes are stored:
-        { "<sku>": {"n": name, "e": ean, "l": last_day_seen, "h": [[ first_day_of_run, price, list_price_or_null, avail ], ...]} }
+        { "<sku>": {"n": name, "e": ean, "l": last_day_seen, "h": [[ first_day_of_run, price, list_price_or_null, avail ], ...],
+                    "x": [days without an observation, only if any] } }
         <out>/v2/ean/<shard>.json, <out>/v2/meta.json, <out>/v2/index.json   (same as v1)
         <out>/v1/...  LEGACY daily format for extension 0.3 (remove once 0.4 is live, before 2026-11-01)
         <out>/v1/<shop>/<shard>.json   shard = first 2 hex chars of sha1(sku)
@@ -38,6 +39,23 @@ IN_STOCK = {"InStock", "LimitedAvailability", "OnlineOnly", "InStoreOnly", "PreO
 
 def shard(key):
     return hashlib.sha1(key.encode()).hexdigest()[:2]
+
+
+def missing_days(days):
+    """Days between the first and last observation that have no observation (shop not collected, or page failed).
+
+    The v2 run-length history would otherwise silently carry a price across those days."""
+    if not days:
+        return []
+    ds = sorted(days)
+    have = set(ds)
+    out, d = [], dt.date.fromisoformat(ds[0])
+    end = dt.date.fromisoformat(ds[-1])
+    while d < end:
+        if d.isoformat() not in have:
+            out.append(d.isoformat())
+        d += dt.timedelta(days=1)
+    return out
 
 
 def main():
@@ -97,7 +115,11 @@ def main():
             if not runs or runs[-1][1:] != h[1:]:
                 runs.append(h)
         shards_v1[(shop, shard(sku))][sku] = {"n": prod["n"], "e": prod["e"], "h": hist}
-        shards_v2[(shop, shard(sku))][sku] = {"n": prod["n"], "e": prod["e"], "l": hist[-1][0], "h": runs}
+        entry = {"n": prod["n"], "e": prod["e"], "l": hist[-1][0], "h": runs}
+        gaps = missing_days(prod["days"])
+        if gaps:
+            entry["x"] = gaps  # days we did not observe; extension >= 0.4.1 leaves them out
+        shards_v2[(shop, shard(sku))][sku] = entry
         shop_counts[shop] += 1
         if prod["e"]:
             last = hist[-1]
