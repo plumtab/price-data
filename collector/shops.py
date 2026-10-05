@@ -118,7 +118,6 @@ SHOPS = {
         "cap": 60000,
         "workers": 3,
         "delay": 0,
-        "measures_before_price": False,
     },
     "harald-nyborg": {
         "base": "https://www.harald-nyborg.dk",

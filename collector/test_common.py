@@ -57,11 +57,12 @@ class ParseProduct(unittest.TestCase):
         p = parse_product(week, "https://www.foetex.dk/produkter/x/200161340/")
         self.assertEqual((p["list_price"], p["sale_from"]), (1300, "02/10"))
         all_year = page(doc) + nuxt(5999, 910, '"2026-01-01"', '"2026-12-31"')  # "SKARP PRIS", no before-price shown
-        self.assertIsNone(parse_product(all_year, "https://www.bilka.dk/produkter/x/1/")["list_price"])
+        self.assertIsNone(parse_product(all_year, "https://www.foetex.dk/produkter/x/1/")["list_price"])
+        self.assertIsNone(parse_product(week, "https://www.bilka.dk/produkter/x/1/")["list_price"])  # Bilka doesn't show it
         member = page(doc) + nuxt(1300, 910, '"2026-10-02"', '"2026-10-08"', member="r")
         self.assertIsNone(parse_product(member, "https://www.foetex.dk/produkter/x/1/")["list_price"])
         no_promo = page(doc) + nuxt(910, 910, "e", "e")
-        self.assertIsNone(parse_product(no_promo, "https://www.bilka.dk/produkter/x/1/")["list_price"])
+        self.assertIsNone(parse_product(no_promo, "https://www.foetex.dk/produkter/x/1/")["list_price"])
 
     def test_no_offer(self):
         self.assertIsNone(parse_product(page({"@type": "WebPage"})))

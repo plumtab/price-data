@@ -134,7 +134,7 @@ def salling_promotion(html):
     return {"list_price": lp, "start": start}
 
 
-def parse_html_extras(html):
+def parse_html_extras(html, url=None):
     """Shop-rendered details not in JSON-LD: a strikethrough list price (Magasin) and a printed offer start ("dd/mm")."""
     out = {}
     m = _STRIKE_RE.search(html)
@@ -143,7 +143,9 @@ def parse_html_extras(html):
     m = _SALEDATE_RE.search(html)
     if m:
         out["sale_from"] = f"{int(m.group(1)):02d}/{int(m.group(2)):02d}"
-    sp = salling_promotion(html)
+    # Føtex only: Bilka keeps a list_price in the same data but doesn't show it (helper checked the live pages,
+    # Oct 5: a 2–8 Oct campaign on bilka.dk shows "SE HER", no "Før"; foetex.dk shows "Spar 30% · Før 1.300,-").
+    sp = salling_promotion(html) if url and "foetex.dk" in url else None
     if sp:
         out["list_price"] = sp["list_price"]
         out["sale_from"] = f"{sp['start'][8:10]}/{sp['start'][5:7]}"
@@ -207,7 +209,7 @@ def parse_product(html, url=None):
             list_price = _num(spec.get("price"))
     ean = node.get("gtin13") or node.get("gtin") or node.get("gtin12") or node.get("gtin14") or node.get("ean")
     avail = str(offer.get("availability", "")).rsplit("/", 1)[-1] or None
-    extras = parse_html_extras(html)
+    extras = parse_html_extras(html, url)
     if list_price is None and extras.get("list_price") and extras["list_price"] > price:
         list_price = extras["list_price"]
     # Magasin-style pages: one Product, but the offer is for a specific size whose own URL differs from the page.
