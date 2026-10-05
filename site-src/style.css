@@ -25,9 +25,10 @@ figure.example { margin: 0 0 8px; }
 figure.example img { display: block; width: 100%; max-width: 420px; height: auto; margin: -18px 0 -18px -24px; }
 figure.example figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; }
 
-dl.states { margin: 12px 0 0; }
-dl.states dt { font-weight: 600; margin-top: 14px; }
-dl.states dd { margin: 2px 0 0; color: #333; }
+table.plain { width: 100%; border-collapse: collapse; font-size: 16px; margin-top: 12px; }
+table.plain th, table.plain td { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+table.plain thead th { font-size: 13px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--ink); }
+table.plain td:first-child { width: 36%; font-weight: 600; }
 
 .index table { width: 100%; border-collapse: collapse; font-size: 16px; margin-top: 12px; }
 .index th, .index td { padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); text-align: left; }
@@ -42,7 +43,7 @@ footer { margin-top: 64px; padding-top: 14px; border-top: 1px solid var(--line);
 
 @media (prefers-color-scheme: dark) {
   :root { --ink: #ededed; --muted: #a3a3a3; --line: #333; --bg: #141414; }
-  dl.states dd { color: #d0d0d0; } code { background: #222; }
+  code { background: #222; }
   .brand img { filter: invert(1); }
 }
 @media (max-width: 480px) { .index th:last-child, .index td:last-child { display: none; } }

@@ -23,20 +23,17 @@
 </figure>
 
 <h2>Hvad kortet kan sige</h2>
-<dl class="states">
-  <dt>Vi har set den billigere</dt>
-  <dd>Vi har registreret en lavere pris end butikkens førpris i de 30 dage før tilbuddet. Det er det eneste tilfælde, hvor kortet åbner af sig selv.</dd>
-  <dt>Førprisen stemmer</dt>
-  <dd>Vi har fulgt varen i alle 30 dage før tilbuddet, og den var ikke billigere end førprisen.</dd>
-  <dt>Ingen lavere pris set</dt>
-  <dd>Vi har ikke set varen billigere end førprisen, men vi har ikke fulgt den i alle 30 dage endnu.</dd>
-  <dt>Førprisen kan ikke tjekkes endnu</dt>
-  <dd>Tilbuddet startede, før vi begyndte at følge prisen.</dd>
-  <dt>12 % over laveste pris</dt>
-  <dd>Varen er ikke på tilbud. Kortet viser, hvor prisen ligger i forhold til den laveste, vi har set.</dd>
-  <dt>Billigere hos …</dt>
-  <dd>Samme vare, med samme stregkode, koster mindre i en anden butik lige nu og er på lager der.</dd>
-</dl>
+<table class="plain">
+  <thead><tr><th>Kortet siger</th><th>Det betyder</th></tr></thead>
+  <tbody>
+    <tr><td>Vi har set den billigere</td><td>Vi har registreret en lavere pris end butikkens førpris i de 30 dage før tilbuddet. Kun her åbner kortet af sig selv.</td></tr>
+    <tr><td>Førprisen stemmer</td><td>Vi har fulgt varen i alle 30 dage før tilbuddet, og den var ikke billigere end førprisen.</td></tr>
+    <tr><td>Ingen lavere pris set</td><td>Vi har ikke set den billigere, men vi har heller ikke fulgt den i alle 30 dage endnu.</td></tr>
+    <tr><td>Førprisen kan ikke tjekkes endnu</td><td>Tilbuddet startede, før vi begyndte at følge prisen.</td></tr>
+    <tr><td>12 % over laveste pris</td><td>Varen er ikke på tilbud. Kortet viser, hvor prisen ligger i forhold til den laveste, vi har set.</td></tr>
+    <tr><td>Billigere hos …</td><td>Samme vare med samme stregkode koster mindre i en anden butik lige nu, og den er på lager der.</td></tr>
+  </tbody>
+</table>
 
 <h2 id="reglen">Reglen</h2>
 <p>Når en butik markedsfører en prisnedsættelse, skal førprisen som udgangspunkt være den laveste pris, butikken har haft i de 30 dage før nedsættelsen. Reglen kommer fra EU’s prismærkningsdirektiv (artikel 6a) og gælder også i Danmark.</p>
@@ -45,12 +42,7 @@
 <h2 id="metode">Sådan får vi priserne</h2>
 <p>Vores prisrobot besøger hver dag produktsiderne hos Power, Elgiganten, Bilka, Imerco, Magasin, Matas, Coolshop, Føtex og Harald Nyborg og gemmer pris, førpris og lagerstatus. Den oplyser sit navn og en kontaktadresse og respekterer butikkernes robots.txt. <a href="bot.html">Om prisrobotten</a>.</p>
 <p>Udvidelsen læser prisen fra den side, du har åben, og henter vores offentlige prisfil for varen. Den sender intet om dig. Priser på varer, du selv ser, gemmes kun i din browser.</p>
-<p>Begrænsninger:</p>
-<ul>
-  <li>Vi kender kun de dage, vi har registreret. Mangler vi en dag, kan vi have overset en lavere pris.</li>
-  <li>Hos Bilka, Matas, Føtex og Harald Nyborg kan vi endnu ikke aflæse førprisen. Der viser Førpris prishistorikken og billigere tilbud andre steder.</li>
-  <li>Medlemspriser og “køb 2”-tilbud tjekker vi ikke.</li>
-</ul>
+<p>Der er grænser for, hvad vi kan se. Vi kender kun de dage, vi har registreret, så mangler vi en dag, kan vi have overset en lavere pris. Hos Bilka, Matas, Føtex og Harald Nyborg kan vi endnu ikke aflæse førprisen, så dér viser Førpris kun prishistorikken og billigere tilbud andre steder. Medlemspriser og “køb 2”-tilbud tjekker vi ikke.</p>
 
 <h2>Førpris-indekset</h2>
 <p>Hvor stor en del af de varer, vi følger, viser butikken i dag med en overstreget førpris? Tallet opdateres hver dag frem mod Black Friday den 27. november.</p>
