@@ -59,6 +59,81 @@ _STRIKE_RE = re.compile(r'class="strike-through list[^"]*".{0,400}?content="([\d
 _SALEDATE_RE = re.compile(r'(?:saledateinfo">\s*Gælder|Tilbud(?:det)? gælder fra(?: d\.)?)\s*(\d{1,2})/(\d{1,2})')
 
 
+_NUXT_RE = re.compile(r"window\.__NUXT__=function\(([^)]*)\)\{")
+_JS_LIT = {"null": None, "!0": True, "!1": False, "void 0": None}
+
+
+def _js_args(s):
+    """Split a JS argument list at top-level commas (strings, arrays and objects kept whole)."""
+    out, cur, depth, q, esc = [], "", 0, None, False
+    for ch in s:
+        if q:
+            cur += ch
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == q:
+                q = None
+            continue
+        if ch in "\"'":
+            q = ch
+        elif ch in "[{(":
+            depth += 1
+        elif ch in "]})":
+            depth -= 1
+        elif ch == "," and depth == 0:
+            out.append(cur.strip())
+            cur = ""
+            continue
+        cur += ch
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+
+def salling_promotion(html):
+    """Bilka/Føtex (Salling Group) keep price data in a Nuxt payload, not in JSON-LD.
+
+    Returns {"list_price": float, "start": "YYYY-MM-DD"} only when the page shows a before-price, else None.
+    Checked against the live pages (Oct 5): a time-limited campaign shows "Spar 30% · Før 1.300,-"; an all-year
+    campaign shows "SKARP PRIS" with no before-price. Member prices and "always low price" are left out (D-015).
+    """
+    m = _NUXT_RE.search(html)
+    if not m:
+        return None
+    end = html.find("</script>", m.end())
+    body = html[m.end():end]
+    k = body.rfind("}(")
+    if k < 0:
+        return None
+    values = dict(zip(m.group(1).split(","), (_JS_LIT.get(a, a) for a in _js_args(body[k + 2: body.rfind(")")]))))
+    body = body[:k]
+
+    def field(name):
+        f = re.search(r"[,{]" + name + r":(\"(?:[^\"\\\\]|\\\\.)*\"|[^,}\]]+)", body)
+        if not f:
+            return None
+        raw = f.group(1)
+        v = values.get(raw, _JS_LIT.get(raw, raw)) if re.fullmatch(r"[A-Za-z_$]{1,3}|!0|!1|null|void 0", raw) else raw
+        return v.strip('"') if isinstance(v, str) else v
+
+    lp, sp = _num(field("list_price")), _num(field("sales_price_generated"))
+    start, stop = field("promotion_start_date"), field("promotion_end_date")
+    if lp is None or sp is None or lp <= sp + 0.5 or not start or not stop:
+        return None
+    if field("is_always_low_price") is True or field("has_membership_promotion") is True:
+        return None
+    try:
+        import datetime as _dt
+        span = (_dt.date.fromisoformat(stop) - _dt.date.fromisoformat(start)).days
+    except ValueError:
+        return None
+    if span > 62:  # all-year "skarp pris": no before-price is shown
+        return None
+    return {"list_price": lp, "start": start}
+
+
 def parse_html_extras(html):
     """Shop-rendered details not in JSON-LD: a strikethrough list price (Magasin) and a printed offer start ("dd/mm")."""
     out = {}
@@ -68,6 +143,10 @@ def parse_html_extras(html):
     m = _SALEDATE_RE.search(html)
     if m:
         out["sale_from"] = f"{int(m.group(1)):02d}/{int(m.group(2)):02d}"
+    sp = salling_promotion(html)
+    if sp:
+        out["list_price"] = sp["list_price"]
+        out["sale_from"] = f"{sp['start'][8:10]}/{sp['start'][5:7]}"
     return out
 
 

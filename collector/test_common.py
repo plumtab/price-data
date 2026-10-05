@@ -47,6 +47,22 @@ class ParseProduct(unittest.TestCase):
         self.assertEqual((p["sku"], p["variant"]), ("BOIX24", "s14935921"))
         self.assertIsNone(parse_product(page(GROUP), "https://www.matas.dk/fiskeolie-120-kaps")["variant"])
 
+    def test_salling_before_price_only_for_time_limited_campaigns(self):
+        def nuxt(lp, sp, start, end, always="a", member="a"):
+            return ('<script>window.__NUXT__=function(e,a,r){return{data:[{product:{list_price:%s,sales_price_generated:%s,'
+                    'promotion_start_date:%s,promotion_end_date:%s,is_always_low_price:%s,has_membership_promotion:%s}}]}}'
+                    '(null,!1,!0)</script>' % (lp, sp, start, end, always, member))
+        doc = {"@type": "Product", "sku": "200161340", "offers": {"price": 910}}
+        week = page(doc) + nuxt(1300, 910, '"2026-10-02"', '"2026-10-08"')
+        p = parse_product(week, "https://www.foetex.dk/produkter/x/200161340/")
+        self.assertEqual((p["list_price"], p["sale_from"]), (1300, "02/10"))
+        all_year = page(doc) + nuxt(5999, 910, '"2026-01-01"', '"2026-12-31"')  # "SKARP PRIS", no before-price shown
+        self.assertIsNone(parse_product(all_year, "https://www.bilka.dk/produkter/x/1/")["list_price"])
+        member = page(doc) + nuxt(1300, 910, '"2026-10-02"', '"2026-10-08"', member="r")
+        self.assertIsNone(parse_product(member, "https://www.foetex.dk/produkter/x/1/")["list_price"])
+        no_promo = page(doc) + nuxt(910, 910, "e", "e")
+        self.assertIsNone(parse_product(no_promo, "https://www.bilka.dk/produkter/x/1/")["list_price"])
+
     def test_no_offer(self):
         self.assertIsNone(parse_product(page({"@type": "WebPage"})))
 
