@@ -40,7 +40,7 @@
 <p>Førpris siger ikke, at en butik har brudt reglen. Den viser, hvad vi har registreret, så du selv kan vurdere tilbuddet.</p>
 
 <h2 id="metode">Sådan får vi priserne</h2>
-<p>Vores prisrobot besøger hver dag produktsiderne hos Power, Elgiganten, Bilka, Imerco, Magasin, Matas, Coolshop, Føtex og Harald Nyborg og gemmer pris, førpris og lagerstatus. Den oplyser sit navn og en kontaktadresse og respekterer butikkernes robots.txt. <a href="bot.html">Om prisrobotten</a>.</p>
+<p>Vores prisrobot besøger hver dag produktsiderne hos Power, Elgiganten, Bilka, Imerco, Magasin, Matas, Coolshop, Føtex, Harald Nyborg og Jysk. Den gemmer pris, førpris og lagerstatus, oplyser sit navn og en kontaktadresse og respekterer butikkernes robots.txt. <a href="bot.html">Om prisrobotten</a>.</p>
 <p>Udvidelsen læser prisen fra den side, du har åben, og henter vores offentlige prisfil for varen. Den sender intet om dig. Priser på varer, du selv ser, gemmes kun i din browser.</p>
 <p>Der er grænser for, hvad vi kan se. Vi kender kun de dage, vi har registreret, så mangler vi en dag, kan vi have overset en lavere pris. Hos Bilka, Matas og Harald Nyborg kan vi endnu ikke aflæse førprisen, så dér viser Førpris kun prishistorikken og billigere tilbud andre steder. Medlemspriser og “køb 2”-tilbud tjekker vi ikke.</p>
 
@@ -59,7 +59,7 @@
 <script>
 (async () => {
   const NAMES = { power: "Power", elgiganten: "Elgiganten", bilka: "Bilka", imerco: "Imerco", magasin: "Magasin",
-    matas: "Matas", coolshop: "Coolshop", fotex: "Føtex", "harald-nyborg": "Harald Nyborg" };
+    matas: "Matas", coolshop: "Coolshop", fotex: "Føtex", "harald-nyborg": "Harald Nyborg", jysk: "Jysk" };
   const fmt = (n) => n.toLocaleString("da-DK");
   const dato = (d) => new Date(d + "T00:00:00Z").toLocaleDateString("da-DK", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
   const get = async (f) => (await fetch(f, { cache: "no-cache" })).json();
