@@ -42,10 +42,11 @@ SHOPS = {
             "/product/computer-kontor/netvark/router/",
         ],
         "cap": 6000,
-        # Elgiganten rate-limits cloud IPs (HTTP 429 at 4 parallel requests from GitHub runners),
-        # so we go one request at a time with a pause.
-        "workers": 1,
-        "delay": 2.0,
+        # Elgiganten rate-limits GitHub runners (HTTP 429 even at 1 request with a pause). From the session
+        # environment 4 parallel requests ran cleanly (Oct 4: 5,236 pages, no 429). 3 at a time with a short
+        # pause keeps it polite (~2 requests/s, ~40 min a day) instead of ~4 hours at 1 with a 2 s pause.
+        "workers": 3,
+        "delay": 0.5,
         # Blocked from GitHub runners even at that pace (12/12 HTTP 429 on 2026-10-02).
         # Collected from Claude's session environment instead; skipped in CI.
         "ci": False,
