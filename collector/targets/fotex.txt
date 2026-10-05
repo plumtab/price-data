@@ -12132,7 +12132,6 @@ https://www.foetex.dk/produkter/malebog-til-twin-marker-tegnetid-dansk-efteraar/
 https://www.foetex.dk/produkter/fiskars-functional-form-urtekniv/100557560/
 https://www.foetex.dk/produkter/fao-schwarz-stabletaarn/200195857/
 https://www.foetex.dk/produkter/lipgloss-023-sweetheart/200175667/
-https://www.foetex.dk/produkter/frugthaven-braetspil/200365697/
 https://www.foetex.dk/produkter/streetz-t600-tws-traadloese-hoeretelefoner-hvid/200346909/
 https://www.foetex.dk/produkter/homefixer-moebelfod-m-filt-24-mm-24-stk/200291368/
 https://www.foetex.dk/produkter/magnesium-citrat/200328124/
@@ -38918,3 +38917,12 @@ https://www.foetex.dk/produkter/bitter/100289923/
 https://www.foetex.dk/produkter/hortus-traadfletning-plastbelagt-sort/100293799/
 https://www.foetex.dk/produkter/realme-16-pro-5g-512gb-orchid-purple/200381561/
 https://www.foetex.dk/produkter/tegnebraet-med-magnet-assorteret/200252119/
+https://www.foetex.dk/produkter/sony-wh-ch730n-traadloese-on-ear-hoeretelefoner-lyseroed/200392834/
+https://www.foetex.dk/produkter/sony-wh-ch530-traadloese-on-ear-hoeretelefoner-lyseroed/200392829/
+https://www.foetex.dk/produkter/sony-wh-ch730n-traadloese-on-ear-hoeretelefoner-blaa/200392833/
+https://www.foetex.dk/produkter/sony-wh-ch530-traadloese-on-ear-hoeretelefoner-hvid/200392830/
+https://www.foetex.dk/produkter/sony-wh-ch530-traadloese-on-ear-hoeretelefoner-blaa/200392828/
+https://www.foetex.dk/produkter/sony-wh-ch730n-traadloese-on-ear-hoeretelefoner-beige/200392832/
+https://www.foetex.dk/produkter/sony-wh-ch530-traadloese-on-ear-hoeretelefoner-groen/200392827/
+https://www.foetex.dk/produkter/sony-wh-ch530-traadloese-on-ear-hoeretelefoner-sort/200392826/
+https://www.foetex.dk/produkter/sony-wh-ch730n-traadloese-on-ear-hoeretelefoner-sort/200392831/
