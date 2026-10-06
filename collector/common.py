@@ -204,11 +204,17 @@ def imerco_conditional(html, price, sku):
             product = None
     if isinstance(product, dict) and str(product.get("id")) == str(sku):
         effective = _num(product.get("c_effectivePrice"))
+        # On the "Ikke medlem" layout c_effectivePrice is the member price (c_onOffer.isMemberOffer), so it is only
+        # the general price when that flag is off.
+        on_offer = product.get("c_onOffer")
+        member_offer = isinstance(on_offer, dict) and bool(on_offer.get("isMemberOffer"))
         specials = product.get("c_specialPrices")
         for s in specials if isinstance(specials, list) else [specials]:
             sp = _num(s.get("effectivePrice")) if isinstance(s, dict) else None
-            if sp is not None and abs(sp - price) <= 0.05 and effective is not None and effective > price + 0.05:
-                conditional, general = True, effective
+            if sp is not None and abs(sp - price) <= 0.05:
+                conditional = True
+                if not member_offer and effective is not None and effective > price + 0.05:
+                    general = effective
     m = _IMERCO_LIST_RE.search(html)
     if m:
         items = []
@@ -219,7 +225,8 @@ def imerco_conditional(html, price, sku):
         if any(a is not None and abs(a - price) <= 0.05 for a in member):
             conditional = True
             if general is None:
-                rest = [(a, t) for _, a, t in items if not _member_label(t) and a is not None]
+                # Not the struck "Pris" (data-price-type="disabled"): that is a before-price, not what anyone pays.
+                rest = [(a, t) for k, a, t in items if not _member_label(t) and a is not None and k != "disabled"]
                 general = next((a for a, t in rest if t.endswith("Tilbud")), None) or next((a for a, _ in rest), None)
     return conditional, general
 

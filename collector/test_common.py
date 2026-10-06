@@ -134,6 +134,25 @@ class ParseProduct(unittest.TestCase):
         p = parse_product(page, "https://www.imerco.dk/x?id=100468874")
         self.assertEqual((p["sku"], p["price"], p["list_price"]), ("100468874", 1149.95, None))
 
+    def test_imerco_general_price_never_comes_from_a_member_offer_or_a_struck_price(self):
+        member = fixture("imerco-member-100452261.html")
+        url = "https://www.imerco.dk/x?id=100452261"
+        data = member[member.index('<script id="__NEXT_DATA__"'):]
+        jsonld = member[:member.index("<ul ")]
+        # isMemberOffer set: c_effectivePrice may be the member price itself, so it isn't used; the list decides.
+        flagged = data.replace('"isMemberOffer": false', '"isMemberOffer": true')
+        self.assertEqual(parse_product(member.replace(data, flagged), url)["price"], 249.95)
+        self.assertIsNone(parse_product(jsonld + flagged, url))  # no other source for the general price: no row
+        # A struck "Pris" is a before-price, not the general price: "SuperPris" is.
+        ul = ('<ul class="ProductPrices_productPriceList ProductOverview_productPrices__x">'
+              '<li data-price-type="disabled"><span>399,95</span><span>Pris</span></li>'
+              '<li data-price-type="default"><span>299,95</span><span>SuperPris</span></li>'
+              '<li data-price-type="sale"><span>224,96</span><span>Medlemspris*</span></li></ul>')
+        page = jsonld.replace("187.46", "224.96").replace("249.95", "399.95") + ul
+        self.assertEqual((parse_product(page, url)["price"], parse_product(page, url)["list_price"]), (299.95, None))
+        only_struck = ul.replace('<li data-price-type="default"><span>299,95</span><span>SuperPris</span></li>', "")
+        self.assertIsNone(parse_product(jsonld.replace("187.46", "224.96") + only_struck, url))
+
     def test_imerco_member_price_without_a_readable_general_price_is_not_recorded(self):
         member = fixture("imerco-member-100452261.html")
         no_general = member[:member.index('<script id="__NEXT_DATA__"')].replace(

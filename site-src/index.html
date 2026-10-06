@@ -89,7 +89,7 @@
       return `<tr><td>${NAMES[shop] || shop}</td><td class="n">${fmt(n)}</td><td class="n">${share}</td><td>${spark}</td></tr>`;
     }).join("");
     el.innerHTML = `<table><thead><tr><th>Butik</th><th class="n">Varer fulgt</th><th class="n">Med førpris</th><th></th></tr></thead><tbody>${rows}</tbody></table>
-      <p class="small">“–” betyder, at vi ikke kan aflæse førpriser hos butikken. Rådata ligger på <a href="https://github.com/plumtab/price-data">GitHub</a>.</p>`;
+      <p class="small">“–” betyder, at vi ikke kender andelen, fordi vi ikke kan aflæse butikkens førpriser, eller fordi vores aflæsning ikke var til at stole på den dag. Rådata ligger på <a href="https://github.com/plumtab/price-data">GitHub</a>.</p>`;
     document.getElementById("facts").textContent =
       `Vi følger lige nu ${fmt(total)} varer i ${Object.keys(d.shops).length} butikker og har registreret priser hver dag siden ${dato(d.days[0])}.`;
   } catch (e) { el.innerHTML = '<p class="small">Kunne ikke hente indekset lige nu.</p>'; }
