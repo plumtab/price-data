@@ -164,6 +164,66 @@ def jysk_promotion(html, url):
     return _num(n.group(1).replace(".", "")) if n else None
 
 
+_NEXT_DATA_RE = re.compile(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', re.S)
+_IMERCO_LIST_RE = re.compile(r'<ul class="[^"]*\bProductOverview_productPrices[^"]*">(.*?)</ul>', re.S)
+_IMERCO_ITEM_RE = re.compile(r'<li data-price-type="([^"]*)"[^>]*>(.*?)</li>', re.S)
+_MEMBER_LABEL_RE = re.compile(r"medlem|klub", re.I)
+_NOT_MEMBER_RE = re.compile(r"ikke\s+medlem", re.I)  # "1149,95 Ikke medlem": the price for everyone else
+
+
+def _member_label(text):
+    return bool(_MEMBER_LABEL_RE.search(text)) and not _NOT_MEMBER_RE.search(text)
+
+
+def _dk_amount(text):
+    """A Danish amount as Imerco prints it: "1.149,95" -> 1149.95, "249,95" -> 249.95."""
+    m = re.match(r"\s*(\d[\d.]*)(?:,(\d{1,2}))?", text or "")
+    return _num(m.group(1).replace(".", "") + "." + (m.group(2) or "0")) if m else None
+
+
+def imerco_conditional(html, price, sku):
+    """Is the JSON-LD price a conditional Imerco price? Returns (conditional, general_price or None).
+
+    Imerco puts a member multi-buy price in JSON-LD offers.price, with the normal price as a ListPrice, exactly like
+    a general sale. The page tells them apart (checked on live pages, Oct 6, D-024):
+      price list a visitor sees   sale: "299,95 Pris" (struck, data-price-type="disabled") + "99,95 Tilbud"
+                                  member: "249,95 Pris" (not struck, "default") + "187,46 Medlemspris*" and the
+                                  footnote "*Medlemspris ved køb af 2 valgfrie varer"
+      page data (__NEXT_DATA__,   member: c_specialPrices {label "Medlemspris*", effectivePrice 187.46,
+      page.data.product)          basketNumberOfProductsThreshold 2}, while c_effectivePrice stays 249.95
+    Either signal is enough. The general price is c_effectivePrice, else the non-member line of the price list.
+    Imerco's other member layout, "1149,95 Ikke medlem" + "699,95 Medlemspris" (promotype memberprice), already has
+    the general price in JSON-LD and no ListPrice, so it passes unchanged ("Ikke medlem" is not a member label)."""
+    conditional, general = False, None
+    m = _NEXT_DATA_RE.search(html)
+    product = None
+    if m:
+        try:
+            product = json.loads(m.group(1))["props"]["pageProps"]["page"]["data"]["product"]
+        except (json.JSONDecodeError, KeyError, TypeError):
+            product = None
+    if isinstance(product, dict) and str(product.get("id")) == str(sku):
+        effective = _num(product.get("c_effectivePrice"))
+        specials = product.get("c_specialPrices")
+        for s in specials if isinstance(specials, list) else [specials]:
+            sp = _num(s.get("effectivePrice")) if isinstance(s, dict) else None
+            if sp is not None and abs(sp - price) <= 0.05 and effective is not None and effective > price + 0.05:
+                conditional, general = True, effective
+    m = _IMERCO_LIST_RE.search(html)
+    if m:
+        items = []
+        for kind, inner in _IMERCO_ITEM_RE.findall(m.group(1)):
+            text = re.sub(r"\s+", " ", htmllib.unescape(re.sub(r"<[^>]+>", " ", inner))).strip()
+            items.append((kind, _dk_amount(text), text))
+        member = [a for _, a, t in items if _member_label(t)]
+        if any(a is not None and abs(a - price) <= 0.05 for a in member):
+            conditional = True
+            if general is None:
+                rest = [(a, t) for _, a, t in items if not _member_label(t) and a is not None]
+                general = next((a for a, t in rest if t.endswith("Tilbud")), None) or next((a for a, _ in rest), None)
+    return conditional, general
+
+
 def parse_html_extras(html, url=None):
     """Shop-rendered details not in JSON-LD: a strikethrough list price (Magasin) and a printed offer start ("dd/mm")."""
     out = {}
@@ -246,6 +306,14 @@ def parse_product(html, url=None):
     extras = parse_html_extras(html, url)
     if list_price is None and extras.get("list_price") and extras["list_price"] > price:
         list_price = extras["list_price"]
+    if url and "imerco.dk" in url:
+        # A member multi-buy price is not an offer (D-015, D-024): record the general price and no before-price.
+        # If the general price can't be read, record nothing rather than the member price.
+        conditional, general = imerco_conditional(html, price, node.get("sku"))
+        if conditional:
+            if general is None:
+                return None
+            price, list_price = general, None
     # Magasin-style pages: one Product, but the offer is for a specific size whose own URL differs from the page.
     # Record that size, so a size switch is never mistaken for a price change.
     variant = None

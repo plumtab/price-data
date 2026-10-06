@@ -37,6 +37,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IN_STOCK = {"InStock", "LimitedAvailability", "OnlineOnly", "InStoreOnly", "PreOrder", "BackOrder"}
 
 
+# D-024: until the collector fix (first fixed run Oct 7), Imerco's conditional member prices ("Medlemspris*", e.g. 25 %
+# off when a member buys 2) were recorded as offers: the member price as the price, the normal price as the
+# before-price. Afterwards they can't be told apart from real sales, so the Imerco rows from before the fix that carry
+# a before-price are left out (that day counts as not observed for the product), and the index gives no before-price
+# count for Imerco's days before the fix. Raw data stays as recorded. Same rule as tools/analysis/blackweek.py in the project repo.
+IMERCO_MEMBER_FIX = "2026-10-07"
+
+
+def trusted(shop, day, r):
+    """False for a raw row the site leaves out (see IMERCO_MEMBER_FIX)."""
+    return not (shop == "imerco" and day < IMERCO_MEMBER_FIX and r.get("lp"))
+
+
 def shard(key):
     return hashlib.sha1(key.encode()).hexdigest()[:2]
 
@@ -87,13 +100,15 @@ def main():
                 if "p" not in r or not r.get("s"):
                     continue
                 days_seen.add(day)
+                daily[(shop, day)][1].add((r["s"], bool(r.get("lp") and r["lp"] > r["p"] + 0.5)))
+                if not trusted(shop, day, r):
+                    continue
                 key = (shop, r["s"])
                 prod = products.setdefault(key, {"n": r.get("n"), "e": r.get("e"), "u": r.get("u"), "days": {}})
                 prod["n"], prod["e"], prod["u"] = r.get("n") or prod["n"], r.get("e") or prod["e"], r.get("u") or prod["u"]
                 a = r.get("a")
                 avail = a if isinstance(a, int) else (1 if a in IN_STOCK else 0)
                 obs = [r["p"], r.get("lp"), avail, r.get("v")]
-                daily[(shop, day)][1].add((r["s"], bool(r.get("lp") and r["lp"] > r["p"] + 0.5)))
                 cur = prod["days"].get(day)
                 # Lowest price of the day wins; at the same price, prefer the reading that has a before-price.
                 if cur is None or obs[0] < cur[0] or (obs[0] == cur[0] and obs[1] and not cur[1]):
@@ -153,7 +168,9 @@ def main():
         seen = {}
         for sku, has_lp in cell[1]:
             seen[sku] = seen.get(sku, False) or has_lp
-        index[shop][day] = [len(seen), sum(seen.values())]
+        # Imerco before the member-price fix: how many products we followed is known, how many showed a real
+        # before-price is not (D-024). null = unknown; the front page shows "–" for it.
+        index[shop][day] = [len(seen), None if shop == "imerco" and day < IMERCO_MEMBER_FIX else sum(seen.values())]
     from shops import SHOPS
     not_measured = sorted(n for n, c in SHOPS.items() if c.get("measures_before_price") is False)
     with open(os.path.join(out, "index.json"), "w") as f:

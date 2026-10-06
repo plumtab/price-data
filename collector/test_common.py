@@ -1,8 +1,16 @@
 """Run: python3 -m unittest discover collector"""
 import json
+import os
 import unittest
 
 from common import parse_product
+
+FIXTURES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
+
+
+def fixture(name):
+    with open(os.path.join(FIXTURES, name), encoding="utf-8") as f:
+        return f.read()
 
 
 def page(*docs):
@@ -89,6 +97,48 @@ class ParseProduct(unittest.TestCase):
         self.assertIsNone(parse_product(page(doc) + rsc(path, "2.649,- /stk.", show="false"), url)["list_price"])
         self.assertIsNone(parse_product(page(doc) + rsc(path, "2.649,- /stk.", membership="1600"), url)["list_price"])
         self.assertIsNone(parse_product(page(doc) + other, url)["list_price"])
+
+    def test_imerco_member_price_is_not_an_offer(self):
+        """D-024. Fixtures cut from the live pages (Oct 6): the Product's JSON-LD offer, the price list as served and
+        the product's price fields from __NEXT_DATA__. Both pages have offers.price + a ListPrice in JSON-LD."""
+        member = fixture("imerco-member-100452261.html")  # "249,95 Pris" + "187,46 Medlemspris*" (køb 2, members)
+        url = "https://www.imerco.dk/la-rochere-espressoglas-4-stk-10-cl-glas-klar?id=100452261"
+        p = parse_product(member, url)
+        self.assertEqual((p["sku"], p["price"], p["list_price"]), ("100452261", 249.95, None))
+        # Either signal alone is enough: the price list a visitor sees, or the page data.
+        list_only = member[:member.index('<script id="__NEXT_DATA__"')]
+        self.assertEqual((parse_product(list_only, url)["price"], parse_product(list_only, url)["list_price"]), (249.95, None))
+        data_only = member[:member.index("<ul ")] + member[member.index('<script id="__NEXT_DATA__"'):]
+        self.assertEqual((parse_product(data_only, url)["price"], parse_product(data_only, url)["list_price"]), (249.95, None))
+        # Page data about another product (e.g. a stale payload) doesn't count; the JSON-LD alone reads as before.
+        jsonld_only = member[:member.index("<ul ")]
+        self.assertEqual(parse_product(jsonld_only, url)["price"], 187.46)
+        self.assertEqual(parse_product(data_only.replace('"id": "100452261"', '"id": "1"'), url)["price"], 187.46)
+        # Only Imerco pages get this rule.
+        self.assertEqual(parse_product(member, "https://www.power.dk/x/p-100452261/")["price"], 187.46)
+
+    def test_imerco_general_sale_stays_an_offer(self):
+        sale = fixture("imerco-sale-100051590.html")  # "299,95 Pris" (struck) + "99,95 Tilbud"
+        p = parse_product(sale, "https://www.imerco.dk/x?id=100051590")
+        self.assertEqual((p["price"], p["list_price"]), (99.95, 299.95))
+
+    def test_imerco_plain_price(self):
+        plain = fixture("imerco-plain-100458249.html")  # "99,95 Pris" only
+        p = parse_product(plain, "https://www.imerco.dk/kitchenaid-classic-opoeser-l-34-cm-nylon-hvid?id=100458249")
+        self.assertEqual((p["price"], p["list_price"]), (99.95, None))
+
+    def test_imerco_other_member_layout_already_has_the_general_price(self):
+        # "1149,95 Ikke medlem" + "699,95 Medlemspris" (promotype memberprice): JSON-LD holds 1149.95 and no ListPrice.
+        # "Ikke medlem" (not a member) is the price for everyone, so nothing changes here.
+        page = fixture("imerco-ikke-medlem-100468874.html")
+        p = parse_product(page, "https://www.imerco.dk/x?id=100468874")
+        self.assertEqual((p["sku"], p["price"], p["list_price"]), ("100468874", 1149.95, None))
+
+    def test_imerco_member_price_without_a_readable_general_price_is_not_recorded(self):
+        member = fixture("imerco-member-100452261.html")
+        no_general = member[:member.index('<script id="__NEXT_DATA__"')].replace(
+            '<li data-price-type="default"', '<li data-price-type="hidden"').replace(">Pris<", ">Medlemspris<")
+        self.assertIsNone(parse_product(no_general, "https://www.imerco.dk/x?id=100452261"))
 
     def test_no_offer(self):
         self.assertIsNone(parse_product(page({"@type": "WebPage"})))

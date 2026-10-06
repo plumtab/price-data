@@ -77,10 +77,12 @@
       const [n, k] = byDay[full[full.length - 1]] || [0, 0];
       total += n;
       const measured = !(d.before_price_not_measured || []).includes(shop);
-      const share = measured && n ? Math.round((k / n) * 100) + " %" : "–";
+      // k is null on days where the before-price count is unknown (Imerco before Oct 7: member prices, D-024).
+      const share = measured && n && k != null ? Math.round((k / n) * 100) + " %" : "–";
+      const known = full.filter((day) => byDay[day][1] != null);
       let spark = "";
-      if (measured && full.length > 1) {
-        const v = full.map((day) => byDay[day][1] / byDay[day][0]), hi = Math.max(...v, 0.01);
+      if (measured && known.length > 1) {
+        const v = known.map((day) => byDay[day][1] / byDay[day][0]), hi = Math.max(...v, 0.01);
         const pts = v.map((x, i) => `${(i / (v.length - 1)) * 100},${20 - (x / hi) * 18}`).join(" ");
         spark = `<svg viewBox="0 0 100 20" preserveAspectRatio="none" class="spark" aria-hidden="true"><polyline points="${pts}"/></svg>`;
       }
