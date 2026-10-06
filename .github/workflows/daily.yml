@@ -37,6 +37,8 @@ jobs:
       shops: ${{ steps.list.outputs.shops }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - id: list
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
@@ -59,7 +61,12 @@ jobs:
       matrix:
         shop: ${{ fromJson(needs.plan.outputs.shops) }}
     steps:
+      # A run that waited in the queue behind another one would otherwise check out the commit from when it was
+      # queued, so --skip-existing could not see the data pushed meanwhile (Oct 6: matas, coolshop and
+      # harald-nyborg were collected twice and the second push hit a catalog conflict). Take the branch tip instead.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
