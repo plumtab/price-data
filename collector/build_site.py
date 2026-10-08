@@ -39,15 +39,17 @@ IN_STOCK = {"InStock", "LimitedAvailability", "OnlineOnly", "InStoreOnly", "PreO
 
 # D-024: until the collector fix (first fixed run Oct 7), Imerco's conditional member prices ("Medlemspris*", e.g. 25 %
 # off when a member buys 2) were recorded as offers: the member price as the price, the normal price as the
-# before-price. Afterwards they can't be told apart from real sales, so the Imerco rows from before the fix that carry
-# a before-price are left out (that day counts as not observed for the product), and the index gives no before-price
+# before-price. Afterwards they can't be told apart from real sales. A second layout ("Ikke medlem") recorded the
+# member price as the general price with no before-price at all, so a row without one isn't safe either (found
+# 2026-10-07: 11 false watch-list "raises" at Imerco). The site leaves out every Imerco row from before the fix, with
+# or without a before-price (that day counts as not observed for the product), and the index gives no before-price
 # count for Imerco's days before the fix. Raw data stays as recorded. Same rule as tools/analysis/blackweek.py in the project repo.
 IMERCO_MEMBER_FIX = "2026-10-07"
 
 
 def trusted(shop, day, r):
     """False for a raw row the site leaves out (see IMERCO_MEMBER_FIX)."""
-    return not (shop == "imerco" and day < IMERCO_MEMBER_FIX and r.get("lp"))
+    return not (shop == "imerco" and day < IMERCO_MEMBER_FIX)
 
 
 def shard(key):
