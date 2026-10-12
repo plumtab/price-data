@@ -910,7 +910,6 @@ https://jysk.dk/sovevaerelse/hovedpuder/memory-foam-puder/hovedpude-56x59x16-tem
 https://jysk.dk/sovevaerelse/senge/sengegavle/sengegavl-180x124cm-nisa-graa-40
 https://jysk.dk/sovevaerelse/dyner/fiberdyner/fiberdyne-140x200-hoeie-clean-varm
 https://jysk.dk/sovevaerelse/sengetoj/glat-sengetoj/sengetoej-abelone-140x200-groen
-https://jysk.dk/sovevaerelse/senge/elevationssenge/elevationssenge/elevationsseng-90x200cm-temprakon-ula-graa-42-meget-fast-0
 https://jysk.dk/sovevaerelse/senge/elevationssenge/elevationssenge/elevationsseng-90x210cm-joselva-kola-graa-23-medium
 https://jysk.dk/sovevaerelse/hovedpuder/fiberpuder/fiberpude-60x63-70-tronfjellet
 https://jysk.dk/sovevaerelse/madrasser/boxmadrasser/boxmadras-160x200cm-fjelna-kola-graa-23-medium
@@ -1821,6 +1820,7 @@ https://jysk.dk/sovevaerelse/senge/elevationssenge/elevationssenge/elevationssen
 https://jysk.dk/sovevaerelse/dyner/dundyner/andedunsdyne-135x220-himmeltinden-varm-0
 https://jysk.dk/sovevaerelse/madrasser/topmadrasser/topmadras-180x200cm-1-split-wellpur-gulen-hvid
 https://jysk.dk/sovevaerelse/lagner/straeklagner/straeklagen-frotte-tindra-180x200x30-graa-0
+https://jysk.dk/sovevaerelse/senge/kontinentalsenge/kontinentalseng-90x200cm-temprakon-lya-graa-42-fast
 https://jysk.dk/indretning/bordtekstiler/voksduge/voksdug-flueblom-140-blomster
 https://jysk.dk/indretning/dekoration/lanterner/lanterne-melias-oe24xh46cm-sort
 https://jysk.dk/indretning/bordtekstiler/voksduge/voksdug-myrrapp-140-klar
