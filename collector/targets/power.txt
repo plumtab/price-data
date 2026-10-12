@@ -191,7 +191,6 @@ https://www.power.dk/tv-og-lyd/tv/lg-55-oled-b65-4k-tv-2026-oled55b65laaeu/p-426
 https://www.power.dk/tv-og-lyd/tv/lg-48-oled-evo-c65-4k-tv-2026-oled48c65la/p-4279583/
 https://www.power.dk/tv-og-lyd/tv/lg-55-4k-qned-tv-55qned70/p-4126336/
 https://www.power.dk/tv-og-lyd/tv/samsung-43-4k-led-tv-2026-tu43u7005huxna/p-4266334/
-https://www.power.dk/tv-og-lyd/tv/samsung-55-q7f4-qled-4k-smart-tv-2025/p-4019997/
 https://www.power.dk/tv-og-lyd/tv/samsung-55-4k-mini-led-tv-2026-tu55m72hbuxna/p-4266308/
 https://www.power.dk/tv-og-lyd/tv/samsung-65-qn70f-neo-qled-4k-edge-mini-led-smart-tv-2025/p-4019989/
 https://www.power.dk/tv-og-lyd/tv/cepter-50-4k-uhd-qled-google-tv-cr50eq6002a/p-4235094/
@@ -325,7 +324,6 @@ https://www.power.dk/tv-og-lyd/hovedtelefoner/true-wireless-hovedtelefoner/beats
 https://www.power.dk/tv-og-lyd/hovedtelefoner/true-wireless-hovedtelefoner/jbl-vibe-flex-2-true-wireless-hovedtelefoner-sort/p-3589657/
 https://www.power.dk/tv-og-lyd/hovedtelefoner/traadloese-hovedtelefoner/beats-360-over-ear-hovedtelefoner-himmelblaa-med-oerepuder-i-vaevet-stof/p-4512480/
 https://www.power.dk/tv-og-lyd/hovedtelefoner/true-wireless-hovedtelefoner/jlab-go-air-sport-true-wireless-gul/p-1794373/
-https://www.power.dk/tv-og-lyd/hovedtelefoner/true-wireless-hovedtelefoner/jbl-tune-beam-2-true-wireless-hovedtelefoner-turkis/p-3637811/
 https://www.power.dk/tv-og-lyd/hovedtelefoner/open-ear-hoeretelefoner/jbl-soundgear-clips-true-wireless-sort/p-4228016/
 https://www.power.dk/tv-og-lyd/hovedtelefoner/true-wireless-hovedtelefoner/samsung-galaxy-buds4-true-wireless-hvid/p-4231837/
 https://www.power.dk/tv-og-lyd/hovedtelefoner/traadloese-hovedtelefoner/jlab-studio-pro-anc-traadloese-hovedtelefoner/p-2757923/
@@ -1718,7 +1716,6 @@ https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/smartwatches/apple-
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/smartwatches/samsung-galaxy-watch8-44-mm-lte-graphite/p-4109528/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/smartwatches/huawei-watch-fit-3-smartwatch-sort/p-3122026/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/smartwatches/apple-watch-ultra-4-gps-cellular-49-mm-naturlig-titanium-sand-trail-loop-sm/p-4532406/
-https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/smartwatches/samsung-galaxy-watch4-classic-46-mm-lte-soelvsoelv/p-1192403/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/urremme/apple-watch-40-mm-nike-sport-loop-green-spark/p-4534960/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/urremme/triacle-classic-urrem-universal-18-mm-v2-pink/p-3536894/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/smartwatches/garmin-venu-2-plus-smartwatch-43-mm-soelvgraa/p-2895193/
@@ -3030,7 +3027,6 @@ https://www.power.dk/computere-og-tablets/computere/baerbar-pc/lenovo-ideapad-sl
 https://www.power.dk/computere-og-tablets/computere/baerbar-pc/acer-aspire-14-ai-oled-ultra-5-a14-52m-55cp-14-copilot-pc/p-4058028/
 https://www.power.dk/computere-og-tablets/computere/erhvervs-pc/erhvervs-baerbar-pc/lenovo-thinkpad-p16s-gen-5-21xg000xmx-16-baerbar-pc/p-4533211/
 https://www.power.dk/computere-og-tablets/computere/erhvervs-pc/erhvervs-baerbar-pc/lenovo-thinkpad-p1-gen-8-21q80008mx-16-mobil-workstation/p-4218080/
-https://www.power.dk/computere-og-tablets/computere/stationaer-pc/acer-aspire-xc-840-stationaer-pc/p-1881726/
 https://www.power.dk/computere-og-tablets/computere/erhvervs-pc/erhvervs-stationaer-pc/msi-cubi-nuc-1mg-238beu-mini-pc/p-4228152/
 https://www.power.dk/computere-og-tablets/computere/erhvervs-pc/erhvervs-baerbar-pc/lenovo-thinkbook-14-g8-ial-14-baerbar-pc/p-4311906/
 https://www.power.dk/computere-og-tablets/computere/erhvervs-pc/erhvervs-baerbar-pc/lenovo-thinkpad-x9-15-g1-153-baerbar-pc/p-4094060/
@@ -3318,7 +3314,6 @@ https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/tablets/apple-ipa
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/tastatur/apple-smart-keyboard-folio-11-pro-3-gen-109-air-5-gen/p-1068207/
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/docking-og-montering/vogels-tms1020-bil-kit/p-228114/
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/tablets/cepter-tab-p12-128-gb-126-tablet/p-2888196/
-https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/covers-til-tablet/dbramante-copenhagen-ipad-air-3gen-sort/p-1144371/
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/skaermbeskyttelse/panzerglass-samsung-galaxy-tab-a7-lite-cf-skaermbeskytter/p-1205476/
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/tablets/microsoft-surface-pro-11-13-copilot-pc/p-4091981/
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/tablets/cepter-tab-era-v2-wi-fi-128-gb-inkl-cover/p-4206258/
@@ -10734,7 +10729,6 @@ https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-16-plus-pixbo-ibk-cover-lavet-med-fibriva-hvid/p-4294106/
 https://www.power.dk/hvidevarer/emhaetter-og-tilbehoer/emhaetter/smeg-universale-kdh12wld-emhaette/p-1025035/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-16-pro-max-viking-fk-cover-lavet-med-fibriva-hvid/p-4296434/
-https://www.power.dk/mobil-og-foto/mobiltilbehoer/skaermbeskyttelse/dacota-platinum-iphone-1717-pro16-pro-tiger-glass-skaermbeskytter-gennemsigtigt/p-3384781/
 https://www.power.dk/computere-og-tablets/kontorartikler/kontorstol/dacota-kontorstol-300-kontorstol/p-3733906/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-air-leksands-if-3d-mobilcover-sort/p-4291230/
 https://www.power.dk/gaming-og-underholdning/pc-og-tilbehoer/gaming-mus-og-tastatur/gaming-mus/glorious-model-d-traadloes-gaming-mus-sort/p-1286631/
@@ -10919,7 +10913,6 @@ https://www.power.dk/mobil-og-foto/opladere-og-kabler/usb-kabler/dacota-platinum
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-15-pro-urban-pixel-cover-lavet-med-fibriva-hvid/p-4295805/
 https://www.power.dk/computere-og-tablets/tastatur-og-mus/ergonomisk-tilbehoer/contour-haandledsstoette-rollermouse-pro-extended-leather/p-3254227/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-17-pro-max-real-madrid-3d-mobilcover-sort/p-4294716/
-https://www.power.dk/computere-og-tablets/printere-og-scannere/blaekpatroner/hp-364-xl-cyan-ink-cartridge-blistered/p-126427/
 https://www.power.dk/computere-og-tablets/printere-og-scannere/blaekpatroner/hp-220a-lasertonerpatron-magenta/p-4150070/
 https://www.power.dk/mobil-og-foto/opladere-og-kabler/traadloes-ladning/zens-magnetisk-traadloes-nightstasnd-oplader-15-w/p-2755178/
 https://www.power.dk/tv-og-lyd/kabler/hdmi-kabler/dacota-8k-premium-hdmi-10-m/p-3278086/
@@ -13141,7 +13134,6 @@ https://www.power.dk/hvidevarer/koel-frys-og-koele-fryseskabe/party-coolers/senz
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/etui/ideal-of-sweden-iphone-18-pro-max17-pro-max-silikonecover-magsafe-mocha-mousse/p-4292441/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/skaermbeskyttelse/panzerglass-safe-ultra-wide-fit-skaermbeskytter-honor-600-600-pro/p-4273334/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/skaermbeskyttelse/panzerglass-samsung-galaxy-s26-ultra-hoops-camera-lens-protector-sort/p-4206978/
-https://www.power.dk/mobil-og-foto/mobiltilbehoer/ringlys/hama-spotlight-foldup-102-led-ringlys/p-1102570/
 https://www.power.dk/computere-og-tablets/printere-og-scannere/tonere-til-laserprintere/hp-12a-2-stk-original-sort/p-234092/
 https://www.power.dk/ure-og-traening/traening/traeningsudstyr/garmin-index-sleep-soevnmonitor-l-xl/p-4103878/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-12-starboard-cover-lavet-med-fibriva-sort/p-4295079/
@@ -17679,7 +17671,6 @@ https://www.power.dk/mobil-og-foto/mobiltilbehoer/hukommelseskort-og-kortlaesere
 https://www.power.dk/computere-og-tablets/kabler-og-tilkobling/netvaerkskabler/cat8-netvaerkskabler/eletra-cat8-sftp-netvaerkskabel-10m-sort/p-1251701/
 https://www.power.dk/gaming-og-underholdning/simulation/racerudstyr/racing-bundles/thrustmaster-t-128-racerrat-og-pedalsaet-playstation/p-1731522/
 https://www.power.dk/gaming-og-underholdning/pc-og-tilbehoer/gaming-mus-og-tastatur/gaming-tastatur/logitech-g915-tkl-traadloest-gaming-tastatur-gl-tactile-white/p-2357545/
-https://www.power.dk/smart-home/smart-belysning/smart-dekorative-belysninger/wiz-sync-box-startsaet-55-65/p-4145547/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/hukommelseskort-og-kortlaesere/sandisk-microsdxc-ultra-hukommelseskort-128-gb-a1-c10-v10/p-1893941/
 https://www.power.dk/smart-home/smart-belysning/smart-lys/smart-forsaenket-lys/philips-hue-wca-centura-round-forsaenket-spotlight-aluminium/p-1198705/
 https://www.power.dk/computere-og-tablets/kabler-og-tilkobling/db-og-firewire-kabler/eletra-ieee-1394a-4p-m-1394b-9p-m-3m-kabel-sort/p-1251840/
@@ -17950,7 +17941,6 @@ https://www.power.dk/tv-og-lyd/hoejtalere-radio-og-hifi/radioer/tangent-tuner-ii
 https://www.power.dk/hus-og-outdoor/klima-og-ventilation/varmeapparater/varmepaneler/point-polisw1000-lav-elradiator-mat-hvid/p-1930543/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-17-bk-hacken-cover-lavet-med-fibriva-sort/p-4288310/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/kortholder/ferrelli-magnetisk-kortholder-pink/p-4098111/
-https://www.power.dk/mobil-og-foto/kameratilbehoer/tilbehoer-til-actionkamera/gopro-hero-floaty-hero-2024/p-3530761/
 https://www.power.dk/computere-og-tablets/printere-og-scannere/papir/a4-glossy-inkjet-paper-260g-20/p-231909/
 https://www.power.dk/mobil-og-foto/droner-og-tilbehoer/droner/dji-avata-pro-view-combo-pakke-dji-goggles-2/p-1764968/
 https://www.power.dk/smart-home/smart-belysning/smarte-lyskaeder/philips-hue-festavia-lyskaede-14-m/p-4151886/
@@ -19880,7 +19870,6 @@ https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-samsung-galaxy-s25-urban-pixel-3d-mobilcover-sort/p-4295638/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-11-fc-barcelona-3d-mobilcover-sort/p-4288848/
 https://www.power.dk/hvidevarer/koel-frys-og-koele-fryseskabe/koelefryseskabe/point-7-series-pocr7162cbn-koelefryseskab/p-4206544/
-https://www.power.dk/hvidevarer/koel-frys-og-koele-fryseskabe/koelefryseskabe/liebherr-prime-cbnsda-5753-20-koelefryseskab/p-2108327/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-16-pro-max-vif-3d-mobilcover-sort/p-4296245/
 https://www.power.dk/hvidevarer/hvidevarer-til-professionelt-brug/erhvervs-koeleudstyr/scancool-gur190w-koeleskab/p-4162415/
 https://www.power.dk/hus-og-outdoor/klima-og-ventilation/koeling/vifter/ayco-af-2015-16-gulvventilator/p-941956/
@@ -26111,7 +26100,6 @@ https://www.power.dk/hus-og-outdoor/strygejern-og-toejbehandling/fnugfjernere/ku
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-samsung-galaxy-s26-atletico-de-madrid-clear-case-magsafe-mobilcover-hvid/p-4287915/
 https://www.power.dk/computere-og-tablets/harddiske-og-hukommelse/nas-server/synology-diskstation-ds2422-nas-server/p-1241313/
 https://www.power.dk/computere-og-tablets/printere-og-scannere/blaekpatroner/epson-elephant-c13t24284011-blaekpatron-1-stk-original-sort-blaa-lys-cyan-lys-magenta-magenta-gul/p-655081/
-https://www.power.dk/computere-og-tablets/computere/baerbar-pc/lenovo-ideapad-slim-3-15amn8-r516512-gb-156-baerbar-pc-arctic-grey/p-4203811/
 https://www.power.dk/hvidevarer/madlavning/komfurer/induktionskomfurer/gram-design-fine-ki-15106-n-induktionskomfur/p-4104309/
 https://www.power.dk/computere-og-tablets/tastatur-og-mus/bundle-med-tastatur-og-mus/eletra-kablet-usb-tastatur-og-mus-sort/p-3003595/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-samsung-galaxy-s25-brann-sk-cover-lavet-med-fibriva-hvid/p-4288342/
@@ -26379,7 +26367,6 @@ https://www.power.dk/tv-og-lyd/tilbehoer-til-tv/tv-antenner-og-cica-moduler/stro
 https://www.power.dk/skoenhed-og-velvaere/haarfjerning-og-trimning-til-maend/skaegtrimmere/babyliss-t885e-skaegtrimmer/p-1075012/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/2-in-1-cover/puro-samsung-galaxy-a35-oekolaeder-cover-sort/p-3087911/
 https://www.power.dk/skoenhed-og-velvaere/haarfjerning-og-trimning-til-maend/skaegtrimmere/braun-aio3500-multifunktionstrimmer/p-4121281/
-https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/etui/apple-iphone-17-pro-max-techwoven-cover-magsafe-sienna/p-4157460/
 https://www.power.dk/hvidevarer/emhaetter-og-tilbehoer/emhaetter/electrolux-700-serien-lft816k-emhaette/p-4097876/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/skaermbeskyttelse/dacota-platinum-iphone-16-pro-max-tiger-glass-skaermbeskytter-gennemsigtigt/p-3384782/
 https://www.power.dk/hvidevarer/hvidevarer-til-professionelt-brug/erhvervs-toerretumblere/beko-professional-awzb-9hpspro-toerretumbler/p-4188235/
@@ -27187,7 +27174,6 @@ https://www.power.dk/hus-og-outdoor/klima-og-ventilation/varmeapparater/varmepan
 https://www.power.dk/hvidevarer/koel-frys-og-koele-fryseskabe/fryseskabe/miele-fns-7710-e-integreret-fryser/p-3357745/
 https://www.power.dk/skoenhed-og-velvaere/haarfjerning-til-kvinder/epilatorer/braun-silk-epil-9-ses9-041-epilator/p-3246896/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/etui/samsung-galaxy-z-fold8-carbon-magnet-cover-sort/p-4308726/
-https://www.power.dk/smart-home/styring-af-smart-hjem/relaeer-og-moduler/fibaro-dimmer-2-fgd-212/p-1040728/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/etui/puro-stoedsikkert-leopard-cover-iphone-xr-sort/p-667797/
 https://www.power.dk/computere-og-tablets/kontorartikler/rengoering/eletra-multifunktions-rengoeringssaet/p-4096029/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/covers/design-og-sportscovers/phonecases3d-iphone-16-pro-max-luleaa-hf-3d-mobilcover-sort/p-4291508/
@@ -28236,7 +28222,6 @@ https://www.power.dk/hvidevarer/koel-frys-og-koele-fryseskabe/tilbehoer-til-koel
 https://www.power.dk/smart-home/smart-belysning/smart-dekorative-belysninger/nanoleaf-canvas-smarter-kit-17-panels/p-1106941/
 https://www.power.dk/tv-og-lyd/projektor-og-tilbehoer/baerbar-projektorer/denver-pr-2500-projektor/p-4178917/
 https://www.power.dk/computere-og-tablets/monitorer-og-skaerme/pc-skaerme/samsung-smart-monitor-m7-s32dm702-32-4k-uhd-skaerm-hvid/p-3163105/
-https://www.power.dk/hvidevarer/emhaetter-og-tilbehoer/emhaetter/eico-eicoe30-100-panel-x-link-emhaette/p-773954/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/urremme/polar-loop-gen-2-softweave-udskiftningsrem-orange-s-l/p-4123649/
 https://www.power.dk/smart-home/smart-belysning/smarte-lyspaerer/philips-hue-wca-spotlight-63w-mr16-gu53/p-2361636/
 https://www.power.dk/koekken-og-madlavning/koekkenmaskiner-og-miksere/koekkenmaskiner/senz-sekm1000-koekkenmaskine/p-3012628/
@@ -28353,7 +28338,6 @@ https://www.power.dk/hvidevarer/koel-frys-og-koele-fryseskabe/amerikaner-koelesk
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/covers-til-tablet/targus-click-in-etui-samsung-galaxy-tab-s7-s7-fe-s8-s9-s9-fe/p-1187456/
 https://www.power.dk/tv-og-lyd/tv/samsung-65-qn900f-neo-qled-8k-mini-led-smart-tv-2025/p-4019964/
 https://www.power.dk/computere-og-tablets/monitorer-og-skaerme/gaming-skaerme/samsung-essential-monitor-g3-g35h-32-full-hd-gamingskaerm/p-4539345/
-https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/tastatur/apple-ipad-pro-129-magic-keyboard-hvid/p-1180409/
 https://www.power.dk/hvidevarer/madlavning/tilbehoer-til-komfurer-ovne-og-kogeplader/rengoering/electrolux-m3ocs301-rengoeringsspray-til-ovn-og-mikroovn-500-ml/p-4249466/
 https://www.power.dk/computere-og-tablets/tablets-og-tilbehoer/tablets/apple-ipad-pro-11-2024-wi-fi-256-gb-space-black/p-3306893/
 https://www.power.dk/computere-og-tablets/monitorer-og-skaerme/gaming-skaerme/asus-rog-strix-oled-xg27aqwmg-r-265-qhd-gamingskaerm/p-4534688/
@@ -28378,7 +28362,6 @@ https://www.power.dk/gaming-og-underholdning/pc-og-tilbehoer/gaming-mus-og-tasta
 https://www.power.dk/koekken-og-madlavning/koekkenmaskiner-og-miksere/koekkenmaskiner/ankarsrum-assistent-6230-koekkenmaskine-hvid/p-516284/
 https://www.power.dk/computere-og-tablets/computere/baerbar-pc/lenovo-ideapad-slim-3-chromebook-14m868-128-gb-14-baerbar-pc/p-2290198/
 https://www.power.dk/hvidevarer/madlavning/komfurer/gaskomfurer/bertazzoni-professional-series-pro106l2erot2-gaskomfur/p-4277976/
-https://www.power.dk/computere-og-tablets/computere/baerbar-pc/lenovo-ideapad-1-15alc7-r58256-gb-156-baerbar-pc-cloud-grey/p-3562660/
 https://www.power.dk/mobil-og-foto/kameratilbehoer/tilbehoer-til-actionkamera/dji-osmo-heavy-duty-klemmebeslag-saet/p-4534857/
 https://www.power.dk/gaming-og-underholdning/playstation/playstation-tilbehoer/paladone-ps5-icons-lampe/p-1288372/
 https://www.power.dk/tv-og-lyd/traadloese-hoejtalere/bluetooth-hoejtalere/jbl-flip-6-bluetooth-hoejttaler-graa/p-1202219/
@@ -28386,7 +28369,6 @@ https://www.power.dk/mobil-og-foto/kameraer/bilkameraer/blackvue-dr750s-1ch-16gb
 https://www.power.dk/hus-og-outdoor/rengoering-og-stoevsugning/ledningsfrie-stoevsugere/electrolux-es62p25wet-hygienic-600-ledningsfri-stoevsuger/p-1514134/
 https://www.power.dk/mobil-og-foto/opladere-og-kabler/powerbanks/ideal-of-sweden-slim-powerbank-magsafe-5000-mah-powerbank-sort/p-4534794/
 https://www.power.dk/mobil-og-foto/bil-tilbehoer/holder-til-bil/dacota-platinum-vinduesbeslag-magnet-greb/p-1210221/
-https://www.power.dk/mobil-og-foto/mobiltilbehoer/skaermbeskyttelse/dacota-platinum-iphone-xr-11-tiger-glass-3d-skaermbeskytter-sort/p-1016498/
 https://www.power.dk/mobil-og-foto/digitale-fotorammer/denver-pff-1015w-10-frameo-digital-fotoramme-hvid/p-2305609/
 https://www.power.dk/computere-og-tablets/tasker-og-sleeves/sleeve/dbramante1928-skagen-pro-mb-13-etui-sort/p-4248047/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/urremme/polar-loop-silikone-udskiftningsarmbaand-beigehvid-s-m/p-4537010/
@@ -28516,7 +28498,6 @@ https://www.power.dk/tv-og-lyd/hovedtelefoner/true-wireless-hovedtelefoner/sennh
 https://www.power.dk/gaming-og-underholdning/pc-og-tilbehoer/stationaer-gaming-pc/cepter-e-sport-r70-r5-stationaer-pc/p-3634465/
 https://www.power.dk/computere-og-tablets/datakomponenter/grafikkort-gpu/gigabyte-geforce-rtx-5070-eagle-oc-ice-sff-12-gb-grafikkort/p-3944435/
 https://www.power.dk/tv-og-lyd/traadloese-hoejtalere/bluetooth-hoejtalere/jbl-xtreme-4-bluetooth-hoejtaler-camo/p-4118320/
-https://www.power.dk/tv-og-lyd/tv/thomson-100-4k-qled-pro-google-tv-100qg7s14/p-3760743/
 https://www.power.dk/computere-og-tablets/computere/baerbar-pc/msi-prestige-n16-flip-ai-c1xmt-n1x321tb-nvidia-rtx-spark-n1x-16-copilot-pc/p-4537383/
 https://www.power.dk/hus-og-outdoor/rengoering-og-stoevsugning/robotstoevsugere/roborock-s7-robotstoevsuger-hvid/p-1173826/
 https://www.power.dk/hvidevarer/opvaskemaskiner-og-tilbehoer/tilbehoer-til-opvaskemaskiner/rengoering/electrolux-m2gcp601-clean-e-care-3-i-1-rengoeringsmiddel-6-stk/p-4249026/
@@ -28542,7 +28523,6 @@ https://www.power.dk/hvidevarer/mikroovne-og-tilbehoer/integreret-mikroovne/poin
 https://www.power.dk/smart-home/smart-belysning/smarte-lightstrips/wiz-rgb-led-strip-4-m/p-4145551/
 https://www.power.dk/mobil-og-foto/kameraer/actionkameraer/dji-osmo-action-4-standard-combo/p-2385022/
 https://www.power.dk/computere-og-tablets/computere/baerbar-pc/microsoft-surface-pro-12-ep2-74788-512-gb-2-i-1-12-copilot-pc/p-4539146/
-https://www.power.dk/tv-og-lyd/tv/samsung-55-q7f5-qled-4k-smart-tv-2025/p-4019995/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/smartwatches/huawei-watch-d3-smartwatch-41-mm-sort/p-4530751/
 https://www.power.dk/skoenhed-og-velvaere/tandpleje/elektriske-tandboerster/oral-b-io3-signature-giftset-elektrisk-tandboerste-sort/p-4519526/
 https://www.power.dk/skoenhed-og-velvaere/haarfjerning-og-trimning-til-maend/krops-og-multifunktionstrimmere/braun-mgk5440-multitrimmer/p-2090943/
@@ -28571,7 +28551,6 @@ https://www.power.dk/skoenhed-og-velvaere/haarfjerning-og-trimning-til-maend/ska
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/mobilholder/ideal-of-sweden-magsafe-ring-mount-stand-cherry-lacquer/p-4534789/
 https://www.power.dk/mobil-og-foto/smartwatches-og-wearables/urremme/polar-loop-laeder-udskiftningsarmbaand-sort-s-l/p-4537012/
 https://www.power.dk/tv-og-lyd/hovedtelefoner/true-wireless-hovedtelefoner/jbl-live-pro-2-true-wireless-soelv/p-1558155/
-https://www.power.dk/mobil-og-foto/mobiltelefoner/tcl-605-4g-128gb-sort/p-4094425/
 https://www.power.dk/skoenhed-og-velvaere/tandpleje/elektriske-tandboerster/oral-b-io9-signature-giftset-elektrisk-tandboerste-sort/p-4519518/
 https://www.power.dk/computere-og-tablets/computere/repower-baerbar-pc/repower-macbook-air-133-128-gb-silver/p-1221623/
 https://www.power.dk/computere-og-tablets/computere/baerbar-pc/hp-laptop-15-fd0408no-156-baerbar-pc-graa/p-4074517/
@@ -28670,3 +28649,6 @@ https://www.power.dk/koekken-og-madlavning/koekkenmaskiner-og-miksere/koekkenmas
 https://www.power.dk/tv-og-lyd/traadloese-hoejtalere/bluetooth-hoejtalere/senz-sbl3226-bluetooth-hoejttaler-graa/p-4315248/
 https://www.power.dk/tv-og-lyd/traadloese-hoejtalere/bluetooth-hoejtalere/senz-sbl5226-bluetooth-hoejttaler-graa/p-4315250/
 https://www.power.dk/mobil-og-foto/mobiltilbehoer/skaermbeskyttelse/panzerglass-klar-skaermbeskytter-oppo-a7-pro-sort/p-4539779/
+https://www.power.dk/hvidevarer/toejvask/tilbehoer-til-toejvask/vaskemiddel/miele-ultraphase-2-floralboost-vaskemiddel/p-2070677/
+https://www.power.dk/tv-og-lyd/tv/samsung-32-full-hd-qled-tv-tq32q50aeuxxc/p-1988935/
+https://www.power.dk/tv-og-lyd/tv/thomson-32-fhd-google-tv-32fg2s14/p-3740130/
