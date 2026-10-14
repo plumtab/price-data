@@ -5,15 +5,14 @@ Input:  data/prices/YYYY/MM/DD/<shop>-HHMM.jsonl.gz  (+ collector/catalog/<shop>
 Output: <out>/v2/<shop>/<shard>.json   (extension >= 0.4) run-length history, only changes are stored:
         { "<sku>": {"n": name, "e": ean, "l": last_day_seen, "h": [[ first_day_of_run, price, list_price_or_null, avail ], ...],
                     "x": [days without an observation, only if any] } }
-        <out>/v2/ean/<shard>.json, <out>/v2/meta.json, <out>/v2/index.json   (same as v1)
-        <out>/v1/...  LEGACY daily format for extension 0.3 (remove once 0.4 is live, before 2026-11-01)
-        <out>/v1/<shop>/<shard>.json   shard = first 2 hex chars of sha1(sku)
-        { "<sku>": {"n": name, "e": ean, "h": [[ "YYYY-MM-DD", price, list_price_or_null, avail_code ], ...]} }
-        <out>/v1/ean/<shard>.json        shard = first 2 hex chars of sha1(ean)
+        <out>/v2/ean/<shard>.json        shard = first 2 hex chars of sha1(ean)
         { "<ean>": [[shop, sku, latest_price, date, avail_code, url], ...] }   (only EANs at 2+ shops)
-        <out>/v1/meta.json               { "built": iso, "first_day": ..., "last_day": ..., "shops": {...} }
-        <out>/v1/index.json              Førpris index (descriptive): per shop per day, how many tracked products
+        <out>/v2/meta.json               { "built": iso, "first_day": ..., "last_day": ..., "shops": {...} }
+        <out>/v2/index.json              Førpris index (descriptive): per shop per day, how many tracked products
                                          had a price and how many showed a before-price (list price above price).
+
+        (v1, the legacy daily format for extension 0.3, was removed 2026-10-14: only 0.3 read it, and every live
+        install auto-updated to 0.4+ long before the Nov 1 deadline.)
 
 One observation per product per day: the lowest price seen that day (a conservative choice:
 it can only make a shop's before-price look *more* justified, never less).
@@ -122,7 +121,6 @@ def main():
         if c:
             prod["n"], prod["e"], prod["u"] = c.get("n") or prod["n"], c.get("e") or prod["e"], c.get("u") or prod["u"]
 
-    shards_v1 = collections.defaultdict(dict)
     shards_v2 = collections.defaultdict(dict)
     by_ean = collections.defaultdict(list)
     shop_counts = collections.Counter()
@@ -136,7 +134,6 @@ def main():
         for h in hist:
             if not runs or runs[-1][1:] != h[1:]:
                 runs.append(h)
-        shards_v1[(shop, shard(sku))][sku] = {"n": prod["n"], "e": prod["e"], "h": hist}
         entry = {"n": prod["n"], "e": prod["e"], "l": hist[-1][0], "h": runs}
         gaps = missing_days(prod["days"])
         if gaps:
@@ -147,13 +144,12 @@ def main():
             last = hist[-1]
             by_ean[prod["e"]].append([shop, sku, last[1], last[0], last[3], prod["u"]])
 
-    for version, shards in (("v1", shards_v1), ("v2", shards_v2)):
-        for (shop, sh), data in shards.items():
-            d = os.path.join(args.out, version, shop)
-            os.makedirs(d, exist_ok=True)
-            with open(os.path.join(d, f"{sh}.json"), "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
-    out = os.path.join(args.out, "v1")
+    for (shop, sh), data in shards_v2.items():
+        d = os.path.join(args.out, "v2", shop)
+        os.makedirs(d, exist_ok=True)
+        with open(os.path.join(d, f"{sh}.json"), "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    out = os.path.join(args.out, "v2")
 
     ean_shards = collections.defaultdict(dict)
     for ean, offers in by_ean.items():
@@ -183,11 +179,6 @@ def main():
             "shops": dict(shop_counts)}
     with open(os.path.join(out, "meta.json"), "w") as f:
         json.dump(meta, f, indent=1)
-    # v2 shares the EAN index, index and meta with v1.
-    import shutil
-    for name in ("meta.json", "index.json"):
-        shutil.copy(os.path.join(out, name), os.path.join(args.out, "v2", name))
-    shutil.copytree(os.path.join(out, "ean"), os.path.join(args.out, "v2", "ean"), dirs_exist_ok=True)
     print(json.dumps(meta))
 
 

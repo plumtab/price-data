@@ -4,7 +4,7 @@ Daily price history for products at Danish webshops, collected by **PlumtabPrice
 It powers **Førpris**, a free browser extension that shows whether a shop's "before" price (førpris)
 holds up against the lowest price of the previous 30 days, as Danish and EU price-marking rules require.
 
-- Published data: `https://plumtab.github.io/price-data/v1/` (static JSON, see `collector/build_site.py`)
+- Published data: `https://plumtab.github.io/price-data/v2/` (static JSON, see `collector/build_site.py`)
 - Raw observations: `data/prices/YYYY/MM/DD/<shop>-HHMM.jsonl.gz`
 
 ## How the bot behaves
