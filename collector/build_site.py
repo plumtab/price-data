@@ -125,10 +125,19 @@ def main():
     by_ean = collections.defaultdict(list)
     shop_counts = collections.Counter()
     for (shop, sku), prod in products.items():
-        # Size variants (Magasin): keep only days of the size the page shows now. Untagged rows (before Oct 5) stay.
+        # Size/variant guard (Magasin's url-based size, Harald Nyborg's gtin-based length, 2026-10-16): keep only
+        # days of the variant the page shows now. An untagged row is trusted as that variant unless this sku has
+        # shown more than one *tagged* variant anywhere in its history - once it's proven itself a switcher, an
+        # untagged row could be either one and is dropped too. Untagged rows that predate variant tracking
+        # entirely (before Oct 5 for Magasin, before Oct 16 for Harald Nyborg) stay, same as before, as long as
+        # only one variant has ever been tagged.
         cur_v = prod["days"][max(prod["days"])][3]
         if cur_v:
-            prod["days"] = {d: o for d, o in prod["days"].items() if o[3] in (None, cur_v)}
+            tagged = {o[3] for o in prod["days"].values() if o[3]}
+            if len(tagged) > 1:
+                prod["days"] = {d: o for d, o in prod["days"].items() if o[3] == cur_v}
+            else:
+                prod["days"] = {d: o for d, o in prod["days"].items() if o[3] in (None, cur_v)}
         hist = [[d] + prod["days"][d][:3] for d in sorted(prod["days"])]
         runs = []
         for h in hist:
