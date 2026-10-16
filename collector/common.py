@@ -327,6 +327,14 @@ def parse_product(html, url=None):
     offer_path = _path(offer.get("url"), url)
     if page and offer_path and offer_path != page:
         variant = offer_path.rsplit("/", 1)[-1].split(".")[0][:40] or None
+    # Harald Nyborg: a multi-length/size product (one sku/mpn, several gtins, e.g. "Klyngelys LED varmhvid" in
+    # several lengths) is served as a single Product under one url, and which length is the default can change
+    # from day to day with the url unchanged, swapping in a different gtin and price for that day alone (found
+    # 2026-10-16: 35+ one-day spikes across distinct skus in a week, each day's gtin matching the catalog entry
+    # added that day). No url-based variant to key on here, so tag by gtin instead; the existing variant guard
+    # (blackweek.current_size / build_site's equivalent) then drops a day whose gtin differs from today's.
+    if variant is None and ean and url and "harald-nyborg.dk" in url:
+        variant = str(ean)
     return {
         "name": htmllib.unescape(node.get("name") or "")[:200],
         "price": price,

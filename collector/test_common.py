@@ -55,6 +55,30 @@ class ParseProduct(unittest.TestCase):
         self.assertEqual((p["sku"], p["variant"]), ("BOIX24", "s14935921"))
         self.assertIsNone(parse_product(page(GROUP), "https://www.matas.dk/fiskeolie-120-kaps")["variant"])
 
+    def test_harald_nyborg_variant_tagged_by_gtin(self):
+        # Found 2026-10-16: the default length/variant Harald Nyborg serves under one sku and url can change
+        # day to day (by stock), swapping in a different gtin and price with no url to key a variant switch on.
+        # Tag by gtin instead, so the existing variant guard (keyed on `variant`) catches the swap.
+        doc = {"@type": "Product", "sku": "39322-MASTER", "gtin13": "5715203393235",
+               "offers": {"price": "89.00", "url": "https://www.harald-nyborg.dk/klyngelys-led-varmhvid"}}
+        p = parse_product(page(doc), "https://www.harald-nyborg.dk/klyngelys-led-varmhvid")
+        self.assertEqual((p["sku"], p["ean"], p["variant"]), ("39322-MASTER", "5715203393235", "5715203393235"))
+        # A different default variant the next day: same sku/url, different gtin and price.
+        doc2 = {"@type": "Product", "sku": "39322-MASTER", "gtin13": "5715203439278",
+                "offers": {"price": "899.00", "url": "https://www.harald-nyborg.dk/klyngelys-led-varmhvid"}}
+        p2 = parse_product(page(doc2), "https://www.harald-nyborg.dk/klyngelys-led-varmhvid")
+        self.assertNotEqual(p["variant"], p2["variant"])
+        # A shop with a url-based variant match (Magasin) is unaffected: its own variant tag still wins.
+        doc3 = {"@type": "Product", "sku": "BOIX24", "gtin13": "0000000000000",
+                "offers": {"price": "910", "url": "https://www.magasin.dk/x/S14935921.html"}}
+        p3 = parse_product(page(doc3), "https://www.magasin.dk/eau-de-grey-vetiver-eau-de-toilette/BOIX24.html")
+        self.assertEqual(p3["variant"], "s14935921")
+        # No gtin, no url mismatch: no variant tag (unchanged behaviour for ordinary single-variant pages).
+        doc4 = {"@type": "Product", "sku": "1", "offers": {"price": "10",
+                "url": "https://www.harald-nyborg.dk/some-product"}}
+        p4 = parse_product(page(doc4), "https://www.harald-nyborg.dk/some-product")
+        self.assertIsNone(p4["variant"])
+
     def test_salling_before_price_only_for_time_limited_campaigns(self):
         def nuxt(lp, sp, start, end, always="a", member="a"):
             return ('<script>window.__NUXT__=function(e,a,r){return{data:[{product:{list_price:%s,sales_price_generated:%s,'
