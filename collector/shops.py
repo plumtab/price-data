@@ -130,6 +130,10 @@ SHOPS = {
         "workers": 3,
         "delay": 0,
         "measures_before_price": False,
+        # Serves a multi-length/size product as one sku/url, with the default length (its own gtin and price)
+        # changing day to day with nothing else to key a variant switch on. common.parse_product tags the
+        # variant by gtin for any shop with this flag set (found 2026-10-16; was a hardcoded hostname check).
+        "variant_by_gtin": True,
     },
     "jysk": {
         # Furniture and home. One flat sitemap with categories, guides and products mixed; products are the

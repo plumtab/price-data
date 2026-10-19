@@ -11,6 +11,18 @@ import urllib.request
 USER_AGENT = "ForprisBot/0.1 (+https://plumtab.github.io/price-data/bot.html; plumtab.studio@gmail.com)"
 TIMEOUT = 30
 
+# Hostnames of shops flagged in shops.py as tagging their variant by gtin rather than by url (see parse_product).
+# Built from shops.py instead of a hardcoded hostname, so the set of shops this applies to lives in one place.
+try:
+    from shops import SHOPS as _SHOPS
+except ImportError:  # pragma: no cover - common.py has no other reason to need shops.py importable
+    _SHOPS = {}
+_VARIANT_BY_GTIN_HOSTS = tuple(
+    urllib.parse.urlsplit(cfg["base"]).netloc
+    for cfg in _SHOPS.values()
+    if cfg.get("variant_by_gtin") and cfg.get("base")
+)
+
 
 def fetch(url, retries=2):
     """GET a URL and return (status, text). Retries on network errors and 5xx/429 with backoff."""
@@ -333,7 +345,9 @@ def parse_product(html, url=None):
     # 2026-10-16: 35+ one-day spikes across distinct skus in a week, each day's gtin matching the catalog entry
     # added that day). No url-based variant to key on here, so tag by gtin instead; the existing variant guard
     # (blackweek.current_size / build_site's equivalent) then drops a day whose gtin differs from today's.
-    if variant is None and ean and url and "harald-nyborg.dk" in url:
+    # Which shops this applies to is a shops.py flag (`variant_by_gtin`), not a hardcoded hostname here
+    # (PR #49 review note, 2026-10-16).
+    if variant is None and ean and url and any(host in url for host in _VARIANT_BY_GTIN_HOSTS):
         variant = str(ean)
     return {
         "name": htmllib.unescape(node.get("name") or "")[:200],
